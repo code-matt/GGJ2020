@@ -12,6 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */; };
+		A40A4BD823E6104800024F0B /* spaceship.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A40A4BD723E6104800024F0B /* spaceship.scnassets */; };
 		A42C930A23E5E2EF00847044 /* PocketSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A42C930623E5E21A00847044 /* PocketSVG.framework */; };
 		A42C930B23E5E2EF00847044 /* PocketSVG.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A42C930623E5E21A00847044 /* PocketSVG.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ARMultiplayer/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ARMultiplayer/main.m; sourceTree = "<group>"; };
 		270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARMultiplayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A40A4BD723E6104800024F0B /* spaceship.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = spaceship.scnassets; sourceTree = "<group>"; };
 		A42C92FE23E5D8A900847044 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42C930023E5E21A00847044 /* PocketSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PocketSVG.xcodeproj; path = "../node_modules/react-native-arkit/ios/PocketSVG/PocketSVG.xcodeproj"; sourceTree = "<group>"; };
 		E1908E3981DB370883F8844B /* Pods-ARMultiplayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARMultiplayer.release.xcconfig"; path = "Target Support Files/Pods-ARMultiplayer/Pods-ARMultiplayer.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				A40A4BD723E6104800024F0B /* spaceship.scnassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				A40A4BD823E6104800024F0B /* spaceship.scnassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

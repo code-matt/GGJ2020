@@ -6,13 +6,15 @@ class Engine extends Component {
     linkedCamPos: {x: 0, y: 0, z: 0},
     linkedCamEulerAngles: {x: 0, y: 0, z: 0},
     linkedCamRotation: {x: 0, y: 0, z: 0},
+    linkedDirection: {x: 0, y: 0, z: 0},
+    linkedOrientation: {x: 0, y: 0, z: 0},
   };
   componentDidUpdate(prevProps, prevState) {
     if (this.props.isPickedUp !== prevProps.isPickedUp) {
       if (this.props.isPickedUp) {
         this.intervalId = setInterval(async () => {
           let camInfo = await ARKit.getCamera();
-          // console.log({camInfo});
+          console.log({camInfo});
           this.setState({
             linkedCamPos: {
               x: camInfo.position.x,
@@ -21,6 +23,8 @@ class Engine extends Component {
             },
             linkedCamRotation: camInfo.rotation,
             linkedCamEulerAngles: camInfo.eulerAngles,
+            linkedDirection: camInfo.direction,
+            linkedOrientation: camInfo.orientation,
           });
         }, 50);
       } else {
@@ -28,8 +32,18 @@ class Engine extends Component {
       }
     }
   }
+
+  getCameraInfo = async () => {
+    let camInfo = await ARKit.getCamera();
+    const {position} = camInfo;
+    // console.log('Z', position.z);
+    // console.log({camInfo});
+  };
   render() {
+    this.getCameraInfo();
+
     // console.log('engine is repaired', this.props.isRepaired);
+
     if (this.props.isRepaired) {
       return (
         <ARKit.Text
@@ -45,6 +59,8 @@ class Engine extends Component {
       return (
         <ARKit.Text
           text="I am a broken engine"
+          direction={this.state.linkedDirection}
+          orientation={this.state.linkedOrientation}
           position={
             this.props.isPickedUp
               ? this.state.linkedCamPos
@@ -63,3 +79,18 @@ class Engine extends Component {
 }
 
 export default Engine;
+
+/*
+      return (
+        <ARKit.Model
+          position={this.props.position}
+          scale={0.001}
+          model={{
+            file: 'spaceship.scnassets/shipModel.scn',
+          }}
+          key="2"
+          id="engine"
+        />
+      );
+
+*/
