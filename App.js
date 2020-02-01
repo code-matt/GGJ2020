@@ -196,13 +196,39 @@ class App extends Component {
   };
 
   handlePress = async e => {
-    let hits = await ARKit.hitTestPlanes(
-      {
-        x: e.nativeEvent.pageX,
-        y: e.nativeEvent.pageY,
-      },
-      1,
-    );
+    let pageX = Number(e.nativeEvent.pageX);
+    let pageY = Number(e.nativeEvent.pageY);
+    let hits = await ARKit.hitTestSceneObjects({
+      x: pageX,
+      y: pageY,
+    });
+    let event = e;
+    let id = hits.results && hits.results.length && hits.results[0].id;
+    if (id) {
+      console.log('object hit!', hits.results[0]);
+      switch (id) {
+        case 'engine':
+          Vibration.vibrate(500);
+          break;
+        case 'ship':
+          Vibration.vibrate(500);
+          break;
+        default:
+          break;
+      }
+    } else {
+      hits = await ARKit.hitTestPlanes(
+        {
+          x: pageX,
+          y: pageY,
+        },
+        1,
+      );
+      if (hits.results && hits.results.length) {
+        console.log('surface hit!', hits.results[0]);
+      } else {
+      }
+    }
 
     console.log(hits);
   };
