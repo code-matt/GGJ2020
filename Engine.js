@@ -42,8 +42,18 @@ class Engine extends Component {
       }
     }
   }
+
+  getCameraInfo = async () => {
+    let camInfo = await ARKit.getCamera();
+    const {position} = camInfo;
+    // console.log('Z', position.z);
+    // console.log({camInfo});
+  };
   render() {
+    this.getCameraInfo();
+
     // console.log('engine is repaired', this.props.isRepaired);
+
     if (this.props.isRepaired) {
       return (
         <ARKit.Text
@@ -60,6 +70,8 @@ class Engine extends Component {
         <ARKit.Text
           transition={{duration: 0.3}}
           text="I am a broken engine"
+          direction={this.state.linkedDirection}
+          orientation={this.state.linkedOrientation}
           position={
             this.props.isPickedUp
               ? this.state.frontOfCameraPosition

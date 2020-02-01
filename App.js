@@ -259,14 +259,15 @@ class App extends Component {
   renderGame = () => {};
 
   hitTest = async hitLocation => {
-    console.log({hitLocation});
+    console.log('HIT LOCATION', hitLocation);
     let hits = await ARKit.hitTestPlanes(hitLocation, 1);
     if (hits.results && hits.results.length) {
+      this.setState({objectPosition: hits.results[0].position});
     }
-    this.setState({objectPosition: hits.results[0].position});
   };
 
   handlePressTest = async e => {
+    console.log('press test');
     this.hitTest({
       x: e.nativeEvent.pageX,
       y: e.nativeEvent.pageY,
@@ -280,17 +281,18 @@ class App extends Component {
     );
   };
 
-  renderObject = () => {
-    return (
-      <ARKit.Pyramid
-        eulerAngles={this.state.cameraEulerAngles}
-        rotation={this.state.cameraRotation}
-        orientation={this.state.cameraOrientation}
-        position={this.state.objectPosition}
-        shape={{width: 0.1, height: 0.1, length: 0.1}}
-      />
-    );
-  };
+  // renderObject = () => {
+  //   console.log('here', this.state.objectPosition);
+  //   return (
+  //     <ARKit.Model
+  //       position={this.state.objectPosition}
+  //       scale={1}
+  //       model={{
+  //         file: 'spaceship.scnassets/shipModel.scn',
+  //       }}
+  //     />
+  //   );
+  // };
 
   render() {
     return (
@@ -363,6 +365,7 @@ class App extends Component {
                 `${event.nativeEvent.peer.id} - is connecting to multipeer`,
               );
             }}>
+            {/* {this.state.objectPosition && this.renderObject()} */}
             {this.state.gameStarted && (
               <RepairSpaceshipGame ref={node => (this.game = node)} />
             )}
