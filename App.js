@@ -91,7 +91,10 @@ class App extends Component {
           }}
         />
         <Dialog.Button
-          // disabled={this.state.hostGameName === ''}
+          disabled={!this.state.hostGameName}
+          style={{
+            color: this.state.hostGameName ? 'blue' : 'grey',
+          }}
           label="Ok"
           onPress={() => {
             this.setState(
@@ -135,7 +138,10 @@ class App extends Component {
           }}
         />
         <Dialog.Button
-          // disabled={this.state.joinGameName && this.state.joinGameName !== ''}
+          disabled={!this.state.joinGameName}
+          style={{
+            color: this.state.joinGameName ? 'blue' : 'grey',
+          }}
           label="Ok"
           onPress={() => {
             this.setState(

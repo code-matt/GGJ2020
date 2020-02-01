@@ -321,7 +321,7 @@
 			baseConfigurationReference = 8485A931C84C7F507022E701 /* Pods-ARMultiplayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = QNYVG6H7C3;
 				INFOPLIST_FILE = ARMultiplayer/Info.plist;
@@ -342,7 +342,7 @@
 			baseConfigurationReference = 65591072204F381FC0F75FEE /* Pods-ARMultiplayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = QNYVG6H7C3;
 				INFOPLIST_FILE = ARMultiplayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
