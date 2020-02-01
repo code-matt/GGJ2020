@@ -1,28 +1,42 @@
 import {ARKit} from 'react-native-arkit';
 import React, {Component} from 'react';
 
+function distanceVector(v1, v2) {
+  var dx = v1.x - v2.x;
+  var dy = v1.y - v2.y;
+  var dz = v1.z - v2.z;
+
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
 class Engine extends Component {
   state = {
-    linkedCamPos: {x: 0, y: 0, z: 0},
-    linkedCamEulerAngles: {x: 0, y: 0, z: 0},
-    linkedCamRotation: {x: 0, y: 0, z: 0},
+    frontOfCameraPosition: {x: 0, y: 0, z: 0},
   };
   componentDidUpdate(prevProps, prevState) {
     if (this.props.isPickedUp !== prevProps.isPickedUp) {
       if (this.props.isPickedUp) {
         this.intervalId = setInterval(async () => {
-          let camInfo = await ARKit.getCamera();
-          // console.log({camInfo});
-          this.setState({
-            linkedCamPos: {
-              x: camInfo.position.x,
-              y: camInfo.position.y,
-              z: camInfo.position.z - 0.3,
+          let frontOfCameraPosition = await ARKit.getFrontOfCamera();
+          this.setState(
+            {
+              frontOfCameraPosition: {
+                x: frontOfCameraPosition.x,
+                y: frontOfCameraPosition.y,
+                z: frontOfCameraPosition.z,
+              },
             },
-            linkedCamRotation: camInfo.rotation,
-            linkedCamEulerAngles: camInfo.eulerAngles,
-          });
-        }, 50);
+            () => {
+              if (
+                distanceVector(
+                  this.state.frontOfCameraPosition,
+                  this.props.shipPosition,
+                ) < 0.05
+              ) {
+                this.props.placeSpaceshipObject('engine');
+              }
+            },
+          );
+        }, 100);
       } else {
         clearInterval(this.intervalId);
       }
@@ -44,14 +58,15 @@ class Engine extends Component {
     } else {
       return (
         <ARKit.Text
+          transition={{duration: 0.3}}
           text="I am a broken engine"
           position={
             this.props.isPickedUp
-              ? this.state.linkedCamPos
+              ? this.state.frontOfCameraPosition
               : this.props.position
           }
           eulerAngles={this.state.linkedCamEulerAngles}
-          rotation={this.state.linkedCamEulerAngles}
+          // rotation={this.state.linkedCamEulerAngles}
           font={{size: 0.04, depth: 0.03}}
           id={'engine'}
           material={{color: 'red'}}

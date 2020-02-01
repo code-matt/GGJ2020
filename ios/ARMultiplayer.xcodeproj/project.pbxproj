@@ -11,22 +11,22 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		5230D08223E6371C009FD9E8 /* PocketSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; };
+		5230D08323E6371C009FD9E8 /* PocketSVG.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */; };
-		A42C930A23E5E2EF00847044 /* PocketSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A42C930623E5E21A00847044 /* PocketSVG.framework */; };
-		A42C930B23E5E2EF00847044 /* PocketSVG.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A42C930623E5E21A00847044 /* PocketSVG.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A42C930523E5E21A00847044 /* PBXContainerItemProxy */ = {
+		5230D07D23E63549009FD9E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A42C930023E5E21A00847044 /* PocketSVG.xcodeproj */;
+			containerPortal = 5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C79800BB1A21CB5300380860;
 			remoteInfo = "PocketSVG (iOS)";
 		};
-		A42C930723E5E21A00847044 /* PBXContainerItemProxy */ = {
+		5230D07F23E63549009FD9E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A42C930023E5E21A00847044 /* PocketSVG.xcodeproj */;
+			containerPortal = 5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = C79800F51A21CDFD00380860;
 			remoteInfo = "PocketSVG (Mac)";
@@ -34,13 +34,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A42C930C23E5E2EF00847044 /* Embed Frameworks */ = {
+		5230D08423E6371C009FD9E8 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A42C930B23E5E2EF00847044 /* PocketSVG.framework in Embed Frameworks */,
+				5230D08323E6371C009FD9E8 /* PocketSVG.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,8 +59,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ARMultiplayer/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ARMultiplayer/main.m; sourceTree = "<group>"; };
 		270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARMultiplayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PocketSVG.xcodeproj; path = "../node_modules/react-native-arkit/ios/PocketSVG/PocketSVG.xcodeproj"; sourceTree = "<group>"; };
 		A42C92FE23E5D8A900847044 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A42C930023E5E21A00847044 /* PocketSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PocketSVG.xcodeproj; path = "../node_modules/react-native-arkit/ios/PocketSVG/PocketSVG.xcodeproj"; sourceTree = "<group>"; };
 		E1908E3981DB370883F8844B /* Pods-ARMultiplayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARMultiplayer.release.xcconfig"; path = "Target Support Files/Pods-ARMultiplayer/Pods-ARMultiplayer.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -73,7 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */,
-				A42C930A23E5E2EF00847044 /* PocketSVG.framework in Frameworks */,
+				5230D08223E6371C009FD9E8 /* PocketSVG.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,13 +114,22 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A42C930023E5E21A00847044 /* PocketSVG.xcodeproj */,
+				5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */,
 				A42C92FE23E5D8A900847044 /* libRNSVG.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5230D07923E63549009FD9E8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5230D07E23E63549009FD9E8 /* PocketSVG.framework */,
+				5230D08023E63549009FD9E8 /* PocketSVG.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -153,15 +162,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A42C930123E5E21A00847044 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A42C930623E5E21A00847044 /* PocketSVG.framework */,
-				A42C930823E5E21A00847044 /* PocketSVG.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		B0A3E8589B691A551A7353C5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,7 +184,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				A42C930C23E5E2EF00847044 /* Embed Frameworks */,
+				5230D08423E6371C009FD9E8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -205,7 +205,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 57P4448S49;
+						DevelopmentTeam = QNYVG6H7C3;
 					};
 				};
 			};
@@ -223,8 +223,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = A42C930123E5E21A00847044 /* Products */;
-					ProjectRef = A42C930023E5E21A00847044 /* PocketSVG.xcodeproj */;
+					ProductGroup = 5230D07923E63549009FD9E8 /* Products */;
+					ProjectRef = 5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -235,18 +235,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		A42C930623E5E21A00847044 /* PocketSVG.framework */ = {
+		5230D07E23E63549009FD9E8 /* PocketSVG.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = PocketSVG.framework;
-			remoteRef = A42C930523E5E21A00847044 /* PBXContainerItemProxy */;
+			remoteRef = 5230D07D23E63549009FD9E8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A42C930823E5E21A00847044 /* PocketSVG.framework */ = {
+		5230D08023E63549009FD9E8 /* PocketSVG.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = PocketSVG.framework;
-			remoteRef = A42C930723E5E21A00847044 /* PBXContainerItemProxy */;
+			remoteRef = 5230D07F23E63549009FD9E8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -353,7 +353,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 57P4448S49;
+				DEVELOPMENT_TEAM = QNYVG6H7C3;
 				INFOPLIST_FILE = ARMultiplayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -361,7 +361,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ggj2020.arlol;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggj2020.ar;
 				PRODUCT_NAME = ARMultiplayer;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -373,7 +373,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = 57P4448S49;
+				DEVELOPMENT_TEAM = QNYVG6H7C3;
 				INFOPLIST_FILE = ARMultiplayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -381,7 +381,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ggj2020.arlol;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ggj2020.ar;
 				PRODUCT_NAME = ARMultiplayer;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
