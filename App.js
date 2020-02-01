@@ -226,6 +226,18 @@ class App extends Component {
             planeDetection={ARKit.ARPlaneDetection.Horizontal}
             lightEstimationEnabled
             onARKitError={console.log} // if arkit could not be initialized (e.g. missing permissions), you will get notified here
+            onMultipeerJsonDataReceived={event => {
+              Vibration.vibrate(300);
+            }}
+            onPeerConnected={event => {
+              Vibration.vibrate(1000);
+            }}
+            onPeerDisconnected={event => {
+              Vibration.vibrate(1000);
+            }}
+            onPeerConnecting={event => {
+              Vibration.vibrate(1000);
+            }}
           />
         </View>
       </>
