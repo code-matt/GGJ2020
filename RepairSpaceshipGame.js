@@ -18,6 +18,10 @@ class RepairSpaceshipGame extends Component {
     },
   };
 
+  isShipRepaired = () => {
+    return this.state.starshipState.parts.engine.isRepaired;
+  };
+
   repairSpaceshipSection = part => {
     this.setState(
       {
@@ -47,9 +51,12 @@ class RepairSpaceshipGame extends Component {
         },
       },
     } = this.state;
+
+    const isShipRepaired = this.isShipRepaired();
+
     return (
       <>
-        <Ship position={shipPosition} />
+        <Ship position={shipPosition} isShipRepaired={isShipRepaired} />
         <Engine position={enginePosition} isRepaired={engineIsRepaired} />
       </>
     );
