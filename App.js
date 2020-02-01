@@ -17,6 +17,8 @@ import {
   Vibration,
 } from 'react-native';
 
+import RepairSpaceshipGame from './RepairSpaceshipGame';
+
 import {ARKit} from 'react-native-arkit';
 
 import Dialog from 'react-native-dialog';
@@ -32,16 +34,6 @@ class App extends Component {
       showHostGameDialog: false,
       joinGameName: null,
       showJoinGameDialog: false,
-      starshipState: {
-        isRepaired: false,
-        parts: {
-          engine: {
-            isRepaired: false,
-            enginePosition: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
-            // ship in order to repair it.
-          },
-        },
-      },
     };
   }
 
@@ -208,6 +200,9 @@ class App extends Component {
 
     console.log(hits);
   };
+
+  renderGame = () => {};
+
   render() {
     return (
       <>
@@ -228,17 +223,59 @@ class App extends Component {
             onARKitError={console.log} // if arkit could not be initialized (e.g. missing permissions), you will get notified here
             onMultipeerJsonDataReceived={event => {
               Vibration.vibrate(300);
+              let {data} = event.nativeEvent;
+              console.log(data);
             }}
             onPeerConnected={event => {
               Vibration.vibrate(1000);
+              console.warn(
+                `${event.nativeEvent.peer.id} - connected to multipeer`,
+              );
+              if (this.state.isHost) {
+                let peersCopy = this.state.connectedPeers;
+                peersCopy.push(event.nativeEvent.peer.id);
+                this.setState(
+                  {
+                    peers: peersCopy,
+                  },
+                  () => {
+                    if (this.state.isHost) {
+                      ARKit.sendWorldmapData();
+                    }
+                  },
+                );
+              } else {
+                const PATTERN = [1000, 2000, 1000, 2000, 1000, 2000, 1000];
+                Vibration.vibrate(PATTERN);
+                this.setState({
+                  hostId: event.nativeEvent.peer.id,
+                });
+              }
             }}
             onPeerDisconnected={event => {
               Vibration.vibrate(1000);
+              console.warn(
+                `${event.nativeEvent.peer.id} - disconnected from multipeer`,
+              );
+
+              let peersCopy = this.state.connectedPeers;
+
+              let peerIdx = peersCopy.findIndex(
+                peerUUID => peerUUID === event.nativeEvent.peer.id,
+              );
+              peersCopy.splice(peerIdx, 1);
+              this.setState({
+                peers: peersCopy,
+              });
             }}
             onPeerConnecting={event => {
               Vibration.vibrate(1000);
-            }}
-          />
+              console.warn(
+                `${event.nativeEvent.peer.id} - is connecting to multipeer`,
+              );
+            }}>
+            {this.state.gameStarted && <RepairSpaceshipGame />}
+          </ARKit>
         </View>
       </>
     );
