@@ -11,25 +11,46 @@ class RepairSpaceshipGame extends Component {
       parts: {
         engine: {
           isRepaired: false,
-          enginePosition: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
+          position: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
           // ship in order to repair it.
         },
       },
     },
   };
+
+  repairSpaceshipSection = part => {
+    this.setState(
+      {
+        starshipState: {
+          ...this.state.starshipState,
+          parts: {
+            ...this.state.starshipState.parts,
+            [part]: {
+              ...this.state.starshipState.parts[part],
+              isRepaired: true,
+            },
+          },
+        },
+      },
+      () => {
+        console.log(this.state);
+      },
+    );
+  };
+
   render() {
     const {
       starshipState: {
         shipPosition,
         parts: {
-          engine: {enginePosition},
+          engine: {position: enginePosition, isRepaired: engineIsRepaired},
         },
       },
     } = this.state;
     return (
       <>
         <Ship position={shipPosition} />
-        <Engine position={enginePosition} />
+        <Engine position={enginePosition} isRepaired={engineIsRepaired} />
       </>
     );
   }

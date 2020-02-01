@@ -208,6 +208,7 @@ class App extends Component {
       console.log('object hit!', hits.results[0]);
       switch (id) {
         case 'engine':
+          this.game.repairSpaceshipSection('engine');
           Vibration.vibrate(500);
           break;
         case 'ship':
@@ -306,7 +307,9 @@ class App extends Component {
                 `${event.nativeEvent.peer.id} - is connecting to multipeer`,
               );
             }}>
-            {this.state.gameStarted && <RepairSpaceshipGame />}
+            {this.state.gameStarted && (
+              <RepairSpaceshipGame ref={node => (this.game = node)} />
+            )}
           </ARKit>
         </View>
       </>
