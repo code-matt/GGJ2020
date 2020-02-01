@@ -9,6 +9,10 @@ class Ship extends Component {
         position={this.props.position}
         font={{size: 0.05, depth: 0.05}}
         id={'ship'}
+        material={{
+          color: this.props.isShipRepaired ? 'purple' : 'red',
+        }}
+        key={`ship-${this.props.isShipRepaired ? '-repaired' : '-notrepaired'}`}
       />
     );
   }

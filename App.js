@@ -227,15 +227,9 @@ class App extends Component {
       console.log({position});
       switch (id) {
         case 'engine':
+          this.game.pickupSpaceshipPart('engine', true);
+          // this.game.repairSpaceshipSection('engine');
           Vibration.vibrate(500);
-          console.log('hit engine');
-          const enginePosition = {
-            x: position.x,
-            y: position.y,
-            z: position.z,
-          };
-          console.log({enginePosition});
-          this.setState({engineLocation: enginePosition});
           break;
         case 'ship':
           Vibration.vibrate(500);
@@ -370,7 +364,7 @@ class App extends Component {
               );
             }}>
             {this.state.gameStarted && (
-              <RepairSpaceshipGame engine={this.state.engineLocation} />
+              <RepairSpaceshipGame ref={node => (this.game = node)} />
             )}
           </ARKit>
         </View>
