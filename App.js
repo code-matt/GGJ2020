@@ -8,7 +8,14 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, Dimensions, SafeAreaView, Button} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  SafeAreaView,
+  Button,
+  Vibration,
+} from 'react-native';
 
 import {ARKit} from 'react-native-arkit';
 
@@ -37,6 +44,22 @@ class App extends Component {
       },
     };
   }
+
+  startHosting = () => {
+    this.setState(
+      {
+        isHost: 1,
+        gameStarted: true,
+      },
+      () => {
+        ARKit.startBrowsingForPeers(this.state.hostGameName);
+        Vibration.vibrate(300);
+        this.setState({
+          isHost: true,
+        });
+      },
+    );
+  };
 
   renderHostGameDialog = () => {
     return (
@@ -68,9 +91,14 @@ class App extends Component {
           disabled={this.state.hostGameName === ''}
           label="Ok"
           onPress={() => {
-            this.setState({
-              showHostGameDialog: false,
-            });
+            this.setState(
+              {
+                showHostGameDialog: false,
+              },
+              () => {
+                this.startHosting();
+              },
+            );
           }}
         />
       </Dialog.Container>
