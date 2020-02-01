@@ -48,7 +48,6 @@ class App extends Component {
   startHosting = () => {
     this.setState(
       {
-        isHost: 1,
         gameStarted: true,
       },
       () => {
@@ -57,6 +56,18 @@ class App extends Component {
         this.setState({
           isHost: true,
         });
+      },
+    );
+  };
+
+  joinGame = () => {
+    this.setState(
+      {
+        gameStarted: true,
+      },
+      () => {
+        ARKit.advertiseReadyToJoinSession(this.state.joinGameName);
+        Vibration.vibrate(300);
       },
     );
   };
@@ -88,7 +99,7 @@ class App extends Component {
           }}
         />
         <Dialog.Button
-          disabled={this.state.hostGameName === ''}
+          // disabled={this.state.hostGameName === ''}
           label="Ok"
           onPress={() => {
             this.setState(
@@ -132,12 +143,17 @@ class App extends Component {
           }}
         />
         <Dialog.Button
-          disabled={this.state.joinGameName && this.state.joinGameName !== ''}
+          // disabled={this.state.joinGameName && this.state.joinGameName !== ''}
           label="Ok"
           onPress={() => {
-            this.setState({
-              showJoinGameDialog: false,
-            });
+            this.setState(
+              {
+                showJoinGameDialog: false,
+              },
+              () => {
+                this.joinGame();
+              },
+            );
           }}
         />
       </Dialog.Container>
