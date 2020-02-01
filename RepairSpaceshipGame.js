@@ -37,6 +37,27 @@ class RepairSpaceshipGame extends Component {
     return this.state.starshipState.parts.engine.isRepaired;
   };
 
+  placeSpaceshipObject = (part) => {
+    this.setState(
+      {
+        starshipState: {
+          ...this.state.starshipState,
+          parts: {
+            ...this.state.starshipState.parts,
+            [part]: {
+              ...this.state.starshipState.parts[part],
+              isPickedUp: false,
+              isRepaired: true,
+            },
+          },
+        },
+      },
+      () => {
+        console.log(this.state);
+      },
+    );
+  }
+
   repairSpaceshipSection = part => {
     this.setState(
       {
@@ -109,9 +130,11 @@ class RepairSpaceshipGame extends Component {
       <>
         <Ship position={shipPosition} isShipRepaired={isShipRepaired} />
         <Engine
+          placeSpaceshipObject={this.placeSpaceshipObject}
           position={enginePosition}
           isRepaired={engineIsRepaired}
           isPickedUp={enginePickedUp}
+          shipPosition={shipPosition}
         />
         <NoseCone position={noseConePosition} />
         <Cockpit position={cockpitPosition} />
