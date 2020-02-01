@@ -20,7 +20,7 @@ module.exports = {
     ),
   },
   watchFolders: [
-    path.resolve(__dirname, '../react-native-arkit'),
+    // path.resolve(__dirname, '../react-native-arkit'),
     // path.resolve(__dirname, '../node_modules'),
   ],
 };

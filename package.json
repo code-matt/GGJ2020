@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-arkit": "git+ssh://git@github.com/code-matt/react-native-arkit.git",
+    "react-native-arkit": "github:code-matt/react-native-arkit",
     "react-native-dialog": "^5.6.0",
     "react-native-svg": "^11.0.1"
   },

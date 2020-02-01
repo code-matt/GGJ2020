@@ -34,6 +34,8 @@ class App extends Component {
       showHostGameDialog: false,
       joinGameName: null,
       showJoinGameDialog: false,
+      objectPosition: {},
+      cameraPosition: {},
     };
   }
 
@@ -61,6 +63,19 @@ class App extends Component {
         ARKit.advertiseReadyToJoinSession(this.state.joinGameName);
         Vibration.vibrate(300);
       },
+    );
+  };
+
+  renderObject = () => {
+    console.log(this.state.cameraPosition);
+    return (
+      <ARKit.Pyramid
+        eulerAngles={this.state.eulerAngles}
+        rotation={this.state.cameraRotation}
+        orientation={this.state.cameraOrientation}
+        position={this.state.objPosition}
+        shape={{width: 0.1, height: 0.1, length: 0.1}}
+      />
     );
   };
 
@@ -209,6 +224,37 @@ class App extends Component {
 
   renderGame = () => {};
 
+  hitTest = async hitLocation => {
+    console.log({hitLocation});
+    let hits = await ARKit.hitTestPlanes(hitLocation, 1);
+    if (hits.results && hits.results.length) {
+    }
+    this.setState({objectPosition: hits.results[0].position});
+  };
+
+  handlePressTest = async e => {
+    this.hitTest({
+      x: e.nativeEvent.pageX,
+      y: e.nativeEvent.pageY,
+    });
+    let hits = await ARKit.hitTestPlanes(
+      {
+        x: e.nativeEvent.pageX,
+        y: e.nativeEvent.pageY,
+      },
+      1,
+    );
+  };
+
+  renderObject = () => {
+    return (
+      <ARKit.Pyramid
+        position={this.state.objectPosition}
+        shape={{width: 0.1, height: 0.1, length: 0.1}}
+      />
+    );
+  };
+
   render() {
     return (
       <>
@@ -220,7 +266,7 @@ class App extends Component {
           onTouchEnd={e => {
             console.log('touched');
             this.touchXStart = e.nativeEvent.pageX;
-            this.handlePress(e);
+            this.handlePressTest(e);
           }}>
           <ARKit
             style={{flex: 1}}
@@ -280,6 +326,7 @@ class App extends Component {
                 `${event.nativeEvent.peer.id} - is connecting to multipeer`,
               );
             }}>
+            {this.state.objectPosition && this.renderObject()}
             {this.state.gameStarted && <RepairSpaceshipGame />}
           </ARKit>
         </View>
