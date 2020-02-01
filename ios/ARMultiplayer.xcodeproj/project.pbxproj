@@ -351,7 +351,7 @@
 			baseConfigurationReference = FEC1069E1D5D2392D7A670DE /* Pods-ARMultiplayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 57P4448S49;
 				INFOPLIST_FILE = ARMultiplayer/Info.plist;

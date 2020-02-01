@@ -11,6 +11,7 @@ class RepairSpaceshipGame extends Component {
       parts: {
         engine: {
           isRepaired: false,
+          isPickedUp: false,
           enginePosition: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
           // ship in order to repair it.
         },
@@ -18,6 +19,8 @@ class RepairSpaceshipGame extends Component {
     },
   };
   render() {
+    const {engine} = this.props;
+    console.log(engine);
     const {
       starshipState: {
         shipPosition,
@@ -29,7 +32,7 @@ class RepairSpaceshipGame extends Component {
     return (
       <>
         <Ship position={shipPosition} />
-        <Engine position={enginePosition} />
+        <Engine position={engine} />
       </>
     );
   }

@@ -35,9 +35,24 @@ class App extends Component {
       joinGameName: null,
       showJoinGameDialog: false,
       objectPosition: {},
+      cameraInfo: {},
       cameraPosition: {},
+      cameraEulerAngles: {},
+      cameraOrientation: {},
+      cameraRotation: {},
+      engineLocation: {x: 0, y: 0, z: 0},
     };
   }
+
+  componentDidMount = async () => {
+    setInterval(async () => {
+      const cameraInfo = await ARKit.getCamera();
+      const {eulerAngles, orientation, position} = cameraInfo;
+      this.setState({cameraPosition: position});
+      this.setState({cameraEulerAngles: eulerAngles});
+      this.setState({cameraOrientation: orientation});
+    }, 500);
+  };
 
   startHosting = () => {
     this.setState(
@@ -63,19 +78,6 @@ class App extends Component {
         ARKit.advertiseReadyToJoinSession(this.state.joinGameName);
         Vibration.vibrate(300);
       },
-    );
-  };
-
-  renderObject = () => {
-    console.log(this.state.cameraPosition);
-    return (
-      <ARKit.Pyramid
-        eulerAngles={this.state.eulerAngles}
-        rotation={this.state.cameraRotation}
-        orientation={this.state.cameraOrientation}
-        position={this.state.objPosition}
-        shape={{width: 0.1, height: 0.1, length: 0.1}}
-      />
     );
   };
 
@@ -211,16 +213,54 @@ class App extends Component {
   };
 
   handlePress = async e => {
-    let hits = await ARKit.hitTestPlanes(
-      {
-        x: e.nativeEvent.pageX,
-        y: e.nativeEvent.pageY,
-      },
-      1,
-    );
+    let pageX = Number(e.nativeEvent.pageX);
+    let pageY = Number(e.nativeEvent.pageY);
+    let hits = await ARKit.hitTestSceneObjects({
+      x: pageX,
+      y: pageY,
+    });
+    let event = e;
+    let id = hits.results && hits.results.length && hits.results[0].id;
+    if (id) {
+      console.log('object hit!', hits.results[0]);
+      const {position} = hits.results[0];
+      console.log({position});
+      switch (id) {
+        case 'engine':
+          Vibration.vibrate(500);
+          console.log('hit engine');
+          const enginePosition = {
+            x: position.x,
+            y: position.y,
+            z: position.z,
+          };
+          console.log({enginePosition});
+          this.setState({engineLocation: enginePosition});
+          break;
+        case 'ship':
+          Vibration.vibrate(500);
+          break;
+        default:
+          break;
+      }
+    } else {
+      hits = await ARKit.hitTestPlanes(
+        {
+          x: pageX,
+          y: pageY,
+        },
+        1,
+      );
+      if (hits.results && hits.results.length) {
+        console.log('surface hit!', hits.results[0]);
+      } else {
+      }
+    }
 
     console.log(hits);
   };
+
+  engineHit = () => {};
 
   renderGame = () => {};
 
@@ -249,6 +289,9 @@ class App extends Component {
   renderObject = () => {
     return (
       <ARKit.Pyramid
+        eulerAngles={this.state.cameraEulerAngles}
+        rotation={this.state.cameraRotation}
+        orientation={this.state.cameraOrientation}
         position={this.state.objectPosition}
         shape={{width: 0.1, height: 0.1, length: 0.1}}
       />
@@ -266,7 +309,7 @@ class App extends Component {
           onTouchEnd={e => {
             console.log('touched');
             this.touchXStart = e.nativeEvent.pageX;
-            this.handlePressTest(e);
+            this.handlePress(e);
           }}>
           <ARKit
             style={{flex: 1}}
@@ -326,8 +369,9 @@ class App extends Component {
                 `${event.nativeEvent.peer.id} - is connecting to multipeer`,
               );
             }}>
-            {this.state.objectPosition && this.renderObject()}
-            {this.state.gameStarted && <RepairSpaceshipGame />}
+            {this.state.gameStarted && (
+              <RepairSpaceshipGame engine={this.state.engineLocation} />
+            )}
           </ARKit>
         </View>
       </>

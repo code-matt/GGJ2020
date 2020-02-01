@@ -8,6 +8,7 @@ class Engine extends Component {
         text="I am a engine"
         position={this.props.position}
         font={{size: 0.04, depth: 0.03}}
+        id={'engine'}
       />
     );
   }

@@ -8,6 +8,7 @@ class Ship extends Component {
         text="I am a broken ship"
         position={this.props.position}
         font={{size: 0.05, depth: 0.05}}
+        id={'ship'}
       />
     );
   }
