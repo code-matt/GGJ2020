@@ -13,10 +13,22 @@ import {ARKit} from 'react-native-arkit';
 
 class App extends Component {
   state = {};
+
+  handlePress = async (e) => {
+    let hits = await ARKit.hitTestPlanes(
+      {
+        x: e.nativeEvent.pageX,
+        y: e.nativeEvent.pageY,
+      },
+      1,
+    );
+
+    console.log(hits)
+  }
   render() {
     return (
       <View
-        style={{flex: 1, postion: 'relative'}}
+        style={{flex: 1, position: 'relative'}}
         onTouchEnd={e => {
           console.log('touched');
           this.touchXStart = e.nativeEvent.pageX;
