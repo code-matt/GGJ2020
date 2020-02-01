@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -7,7 +8,7 @@
  */
 
 import React, {Component} from 'react';
-import {View, Text, Dimensions, SafeAreaView} from 'react-native';
+import {View, Text, Dimensions, SafeAreaView, Button} from 'react-native';
 
 import {ARKit} from 'react-native-arkit';
 
@@ -43,7 +44,9 @@ class App extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{ color: '#fff', fontSize: 32 }}>REPAIR IT</Text>
+        <Text style={{color: '#fff', fontSize: 32}}>REPAIR IT</Text>
+        <Button title="Join Game" style={{ fontSize: 24, fontWeight: '600' }} onPress={() => { console.log('host game') }} />
+        <Button title="Start Game" style={{ fontSize: 24, fontWeight: '600' }} onPress={() => { console.log('join game') }} />
       </SafeAreaView>
     );
   };
@@ -72,7 +75,7 @@ class App extends Component {
           }}>
           <ARKit
             style={{flex: 1}}
-            debug
+            // debug
             planeDetection={ARKit.ARPlaneDetection.Horizontal}
             lightEstimationEnabled
             onARKitError={console.log} // if arkit could not be initialized (e.g. missing permissions), you will get notified here
