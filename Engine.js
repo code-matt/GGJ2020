@@ -33,6 +33,24 @@ class Engine extends Component {
                 ) < 0.05
               ) {
                 this.props.placeSpaceshipObject('engine');
+                ARKit.sendDataToAllPeers({
+                  type: 'userEvent',
+                  payload: {
+                    eventName: 'part_placed',
+                    partName: 'engine',
+                    position: frontOfCameraPosition,
+                    // if we ever get there post the team's time to some high score page
+                  },
+                });
+              } else {
+                ARKit.sendDataToAllPeers({
+                  type: 'userEvent',
+                  payload: {
+                    eventName: 'part_move',
+                    partName: 'engine',
+                    position: frontOfCameraPosition,
+                  },
+                });
               }
             },
           );

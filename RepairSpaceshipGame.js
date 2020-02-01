@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import Ship from './Ship';
 import Engine from './Engine';
+import {ARKit} from 'react-native-arkit';
 
 class RepairSpaceshipGame extends Component {
   state = {
@@ -20,10 +21,11 @@ class RepairSpaceshipGame extends Component {
   };
 
   isShipRepaired = () => {
-    return this.state.starshipState.parts.engine.isRepaired;
+    let repaired = this.state.starshipState.parts.engine.isRepaired;
+    return repaired;
   };
 
-  placeSpaceshipObject = (part) => {
+  placeSpaceshipObject = (part, position) => {
     this.setState(
       {
         starshipState: {
@@ -34,6 +36,7 @@ class RepairSpaceshipGame extends Component {
               ...this.state.starshipState.parts[part],
               isPickedUp: false,
               isRepaired: true,
+              position,
             },
           },
         },
@@ -42,7 +45,27 @@ class RepairSpaceshipGame extends Component {
         console.log(this.state);
       },
     );
-  }
+  };
+
+  moveSpaceshipPart = (part, position) => {
+    this.setState(
+      {
+        starshipState: {
+          ...this.state.starshipState,
+          parts: {
+            ...this.state.starshipState.parts,
+            [part]: {
+              ...this.state.starshipState.parts[part],
+              position,
+            },
+          },
+        },
+      },
+      () => {
+        console.log(this.state);
+      },
+    );
+  };
 
   repairSpaceshipSection = part => {
     this.setState(
