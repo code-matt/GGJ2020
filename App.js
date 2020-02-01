@@ -46,10 +46,12 @@ class App extends Component {
           Enter a name for the game. Remember it so your friends can join!
         </Dialog.Description>
         <Dialog.Input
+          style={{
+            color: 'black',
+          }}
           onChangeText={text => {
             this.setState({
               hostGameName: text,
-              showHostGameDialog: false
             });
           }}
         />
@@ -63,7 +65,7 @@ class App extends Component {
           }}
         />
         <Dialog.Button
-          disabled={this.state.hostGameName && this.state.hostGameName !== ''}
+          disabled={this.state.hostGameName === ''}
           label="Ok"
           onPress={() => {
             this.setState({
@@ -83,10 +85,12 @@ class App extends Component {
           Enter the name of a game to join.
         </Dialog.Description>
         <Dialog.Input
+          style={{
+            color: 'black',
+          }}
           onChangeText={text => {
             this.setState({
               joinGameName: text,
-              showJoinGameDialog: false
             });
           }}
         />
@@ -126,7 +130,7 @@ class App extends Component {
         }}>
         <Text style={{color: '#fff', fontSize: 32}}>REPAIR IT</Text>
         <Button
-          title="Join Game"
+          title="Host New Game"
           style={{fontSize: 24, fontWeight: '600'}}
           onPress={() => {
             this.setState({
@@ -136,9 +140,12 @@ class App extends Component {
           }}
         />
         <Button
-          title="Start Game"
+          title="Join Existing Game"
           style={{fontSize: 24, fontWeight: '600'}}
           onPress={() => {
+            this.setState({
+              showJoinGameDialog: true,
+            });
             console.log('join game');
           }}
         />
@@ -162,6 +169,7 @@ class App extends Component {
       <>
         {!this.state.gameStarted && this.renderMainMenu()}
         {this.renderHostGameDialog()}
+        {this.renderJoinGameDialog()}
         <View
           style={{flex: 1, position: 'relative'}}
           onTouchEnd={e => {
@@ -171,7 +179,6 @@ class App extends Component {
           }}>
           <ARKit
             style={{flex: 1}}
-            // debug
             planeDetection={ARKit.ARPlaneDetection.Horizontal}
             lightEstimationEnabled
             onARKitError={console.log} // if arkit could not be initialized (e.g. missing permissions), you will get notified here
