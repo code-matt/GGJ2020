@@ -12,6 +12,8 @@ import {View, Text, Dimensions, SafeAreaView, Button} from 'react-native';
 
 import {ARKit} from 'react-native-arkit';
 
+import Dialog from 'react-native-dialog';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +21,10 @@ class App extends Component {
       gameStarted: false,
       isHost: false,
       connectedPeers: [],
+      hostGameName: null,
+      showHostGameDialog: false,
+      joinGameName: null,
+      showJoinGameDialog: false,
       starshipState: {
         isRepaired: false,
         parts: {
@@ -31,6 +37,80 @@ class App extends Component {
       },
     };
   }
+
+  renderHostGameDialog = () => {
+    return (
+      <Dialog.Container visible={this.state.showHostGameDialog}>
+        <Dialog.Title>Host New Game</Dialog.Title>
+        <Dialog.Description>
+          Enter a name for the game. Remember it so your friends can join!
+        </Dialog.Description>
+        <Dialog.Input
+          onChangeText={text => {
+            this.setState({
+              hostGameName: text,
+              showHostGameDialog: false
+            });
+          }}
+        />
+        <Dialog.Button
+          label="Cancel"
+          onPress={() => {
+            this.setState({
+              hostGameName: null,
+              showHostGameDialog: false,
+            });
+          }}
+        />
+        <Dialog.Button
+          disabled={this.state.hostGameName && this.state.hostGameName !== ''}
+          label="Ok"
+          onPress={() => {
+            this.setState({
+              showHostGameDialog: false,
+            });
+          }}
+        />
+      </Dialog.Container>
+    );
+  };
+
+  renderJoinGameDialog = () => {
+    return (
+      <Dialog.Container visible={this.state.showJoinGameDialog}>
+        <Dialog.Title>Join New Game</Dialog.Title>
+        <Dialog.Description>
+          Enter the name of a game to join.
+        </Dialog.Description>
+        <Dialog.Input
+          onChangeText={text => {
+            this.setState({
+              joinGameName: text,
+              showJoinGameDialog: false
+            });
+          }}
+        />
+        <Dialog.Button
+          label="Cancel"
+          onPress={() => {
+            this.setState({
+              joinGameName: null,
+              showJoinGameDialog: false,
+            });
+          }}
+        />
+        <Dialog.Button
+          disabled={this.state.joinGameName && this.state.joinGameName !== ''}
+          label="Ok"
+          onPress={() => {
+            this.setState({
+              showJoinGameDialog: false,
+            });
+          }}
+        />
+      </Dialog.Container>
+    );
+  };
 
   renderMainMenu = () => {
     return (
@@ -45,8 +125,23 @@ class App extends Component {
           alignItems: 'center',
         }}>
         <Text style={{color: '#fff', fontSize: 32}}>REPAIR IT</Text>
-        <Button title="Join Game" style={{ fontSize: 24, fontWeight: '600' }} onPress={() => { console.log('host game') }} />
-        <Button title="Start Game" style={{ fontSize: 24, fontWeight: '600' }} onPress={() => { console.log('join game') }} />
+        <Button
+          title="Join Game"
+          style={{fontSize: 24, fontWeight: '600'}}
+          onPress={() => {
+            this.setState({
+              showHostGameDialog: true,
+            });
+            console.log('host game');
+          }}
+        />
+        <Button
+          title="Start Game"
+          style={{fontSize: 24, fontWeight: '600'}}
+          onPress={() => {
+            console.log('join game');
+          }}
+        />
       </SafeAreaView>
     );
   };
@@ -66,6 +161,7 @@ class App extends Component {
     return (
       <>
         {!this.state.gameStarted && this.renderMainMenu()}
+        {this.renderHostGameDialog()}
         <View
           style={{flex: 1, position: 'relative'}}
           onTouchEnd={e => {
