@@ -29,6 +29,14 @@ Sound.setCategory('Playback');
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
+function distanceVector(v1, v2) {
+  var dx = v1.x - v2.x;
+  var dy = v1.y - v2.y;
+  var dz = v1.z - v2.z;
+
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -280,30 +288,33 @@ class App extends Component {
     });
     let id = hits.results && hits.results.length && hits.results[0].id;
     if (id) {
-      console.log('object hit!', hits.results[0]);
-      const {position} = hits.results[0];
-      console.log({position});
-      // case nosecone:
-      switch (id) {
-        case 'engine':
-        case 'cockpit':
-        case 'fin':
-        case 'wing':
-        case 'door':
-          let pickedUp = this.game.isPartPickedUp(id);
-          if (pickedUp) {
-            this.game.pickupSpaceshipPart(id, false, pickedUp.position);
+      const {position} = await ARKit.getCamera();
+      if (distanceVector(position, hits.results[0].position) < 1) {
+        console.log('object hit!', hits.results[0]);
+        const {position} = hits.results[0];
+        console.log({position});
+        // case nosecone:
+        switch (id) {
+          case 'engine':
+          case 'cockpit':
+          case 'fin':
+          case 'wing':
+          case 'door':
+            let pickedUp = this.game.isPartPickedUp(id);
+            if (pickedUp) {
+              this.game.pickupSpaceshipPart(id, false, pickedUp.position);
+              Vibration.vibrate(500);
+            } else {
+              this.game.pickupSpaceshipPart(id, true);
+              Vibration.vibrate(500);
+            }
+            break;
+          case 'ship':
             Vibration.vibrate(500);
-          } else {
-            this.game.pickupSpaceshipPart(id, true);
-            Vibration.vibrate(500);
-          }
-          break;
-        case 'ship':
-          Vibration.vibrate(500);
-          break;
-        default:
-          break;
+            break;
+          default:
+            break;
+        }
       }
     } else {
       hits = await ARKit.hitTestPlanes(

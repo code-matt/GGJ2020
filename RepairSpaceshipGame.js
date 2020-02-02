@@ -31,12 +31,14 @@ class RepairSpaceshipGame extends Component {
         shipPosition: {x: -1, y: -0.3, z: 0.5},
         parts: {
           engine: {
+            isTouched: false,
             isRepaired: false,
             isPickedUp: false,
             position: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
             // ship in order to repair it.
           },
           cockpit: {
+            isTouched: false,
             isRepaired: false,
             isPickedUp: false,
             position: {x: 0.7, y: 0, z: 1},
@@ -47,24 +49,27 @@ class RepairSpaceshipGame extends Component {
           //   position: {x: -0.5, y: 0.02, z: 0.5},
           // },
           fin: {
+            isTouched: false,
             isRepaired: false,
             isPickedUp: false,
-            position: {x: -0.5, y: 0.02, z: 0.5},
+            position: {x: -0.5, y: 0.1, z: 0.5},
           },
           wing: {
+            isTouched: false,
             isRepaired: false,
             isPickedUp: false,
-            position: {x: 1.5, y: 0.02, z: -0.5},
+            position: {x: 1.5, y: 0.1, z: -0.5},
           },
           ship: {
             isRepaired: false,
             isPickedUp: false,
-            position: {x: -0.8, y: -0.3, z: 1.2},
+            position: {x: -0.8, y: -0.1, z: 1.2},
           },
           door: {
+            isTouched: false,
             isRepaired: false,
             isPickedUp: false,
-            position: {x: -0.8, y: -0.3, z: 1.2},
+            position: {x: -0.8, y: -0.1, z: 1.2},
           },
         },
       },
@@ -85,7 +90,9 @@ class RepairSpaceshipGame extends Component {
             this.state.starshipState.parts[part.name].position,
           ) < 0.5
         ) {
-          this.repairSpaceshipSection(part.name);
+          if (!this.state.starshipState.parts[part.name].isPickedUp) {
+            this.repairSpaceshipSection(part.name);
+          }
         }
       });
     }, 500);
@@ -146,6 +153,7 @@ class RepairSpaceshipGame extends Component {
             [part]: {
               ...this.state.starshipState.parts[part],
               position,
+              pickedUp: true,
             },
           },
         },
@@ -246,6 +254,7 @@ class RepairSpaceshipGame extends Component {
             position: enginePosition,
             isRepaired: engineIsRepaired,
             isPickedUp: enginePickedUp,
+            isTouched: engineTouched,
           },
           // nosecone: {
           //   position: noseconePosition,
@@ -256,21 +265,25 @@ class RepairSpaceshipGame extends Component {
             position: cockpitPosition,
             isRepaired: cockpitIsRepaired,
             isPickedUp: cockpitPickedUp,
+            isTouched: cockpitTouched,
           },
           wing: {
             position: wingPosition,
             isRepaired: wingIsRepaired,
             isPickedUp: wingPickedUp,
+            isTouched: wingTouched,
           },
           fin: {
             position: finPosition,
             isRepaired: finIsRepaired,
             isPickedUp: finPickedUp,
+            isTouched: finTouched,
           },
           door: {
             position: doorPosition,
             isRepaired: doorIsRepaired,
             isPickedUp: doorPickedUp,
+            isTouched: doorTouched,
           },
           ship: {
             position: brokenShipPosition,
@@ -313,6 +326,20 @@ class RepairSpaceshipGame extends Component {
           ref={node => (this.partRefs.cockpit = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={cockpitPosition}
+          // position={{
+          //   x:
+          //     cockpitPosition.x + cockpitTouched
+          //       ? 0
+          //       : this.props.buildLocation.x,
+          //   y:
+          //     cockpitPosition.y + cockpitTouched
+          //       ? 0
+          //       : this.props.buildLocation.y,
+          //   z:
+          //     cockpitPosition.z + cockpitTouched
+          //       ? 0
+          //       : this.props.buildLocation.z,
+          // }}
           isRepaired={cockpitIsRepaired}
           isPickedUp={cockpitPickedUp}
           shipPosition={shipPosition}
