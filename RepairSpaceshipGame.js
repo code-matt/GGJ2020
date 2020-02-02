@@ -21,6 +21,7 @@ class RepairSpaceshipGame extends Component {
     super(props);
     this.partRefs = {};
     this.state = {
+      buildingLocation: null,
       starshipState: {
         isRepaired: false,
         shipPosition: {x: -1, y: -0.3, z: 0.5},
@@ -54,7 +55,6 @@ class RepairSpaceshipGame extends Component {
   componentDidMount() {
     this.checkCompletionInterval = setInterval(() => {
       assembledShipData.forEach(part => {
-        console.log('checking...');
         const offsetVector = {
           x: this.state.starshipState.shipPosition.x + part.validOffset.x,
           y: this.state.starshipState.shipPosition.y + part.validOffset.y,
@@ -70,6 +70,10 @@ class RepairSpaceshipGame extends Component {
         }
       });
     }, 500);
+  }
+
+  componentWillMount() {
+    clearInterval(this.checkCompletionInterval);
   }
 
   isPartPickedUp = part => {

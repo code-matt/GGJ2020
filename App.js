@@ -19,12 +19,15 @@ import {
 
 import RepairSpaceshipGame from './RepairSpaceshipGame';
 
-import {ARKit} from 'react-native-arkit';
+import {ARKit, withProjectedPosition} from 'react-native-arkit';
 
 import Dialog from 'react-native-dialog';
 import CountDown from 'react-native-countdown-component';
 var Sound = require('react-native-sound');
 Sound.setCategory('Playback');
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 class App extends Component {
   constructor(props) {
@@ -40,7 +43,34 @@ class App extends Component {
       joinGameName: null,
       showJoinGameDialog: false,
       engineLocation: {x: 0, y: 0, z: 0},
+      placementCursorPosition: {x: 0, y: 0, z: 0},
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.setBuildLocation && this.state.setBuildLocation) {
+      this.buildPositionInterval = setInterval(async () => {
+        const hits = await ARKit.hitTestPlanes(
+          {
+            x: Number(width / 2),
+            y: Number(height / 2),
+          },
+          1,
+        );
+        // console.log(hits.results);
+        if (hits.results && hits.results.length && hits.results[0]) {
+          this.setState(
+            {
+              placementCursorPosition: hits.results[0].position,
+            },
+            () => console.log(this.state),
+          );
+        }
+      }, 100);
+    }
+    if (prevState.setBuildLocation && !this.state.setBuildLocation) {
+      clearInterval(this.buildPositionInterval);
+    }
   }
 
   startHosting = () => {
@@ -279,6 +309,22 @@ class App extends Component {
     console.log(hits);
   };
 
+  handleBuildLocationPress = () => {
+        /**
+    |--------------------------------------------------
+    | NEXT: if setCursorPosition then fire off multipeer event to start game with buildPosition!
+    |--------------------------------------------------
+    */
+   if (this.state.setBuildLocation) {
+    this.setState({
+      waitingForPlayers: false,
+      setBuildLocation: false,
+      gameStarted: true,
+    });
+    return;
+  }
+  }
+
   renderWaitingForPlayers = () => {
     return (
       <SafeAreaView
@@ -348,7 +394,8 @@ class App extends Component {
             onPress={() => {
               this.setState({
                 waitingForPlayers: false,
-                gameStarted: true,
+                gameStarted: false,
+                setBuildLocation: true,
               });
             }}
             title={'Start Game'}
@@ -395,6 +442,61 @@ class App extends Component {
 
   renderGameOver = () => {};
 
+  renderSetBuildLocation = () => {
+    return (
+      <SafeAreaView
+        onTouchEnd={this.handleBuildLocationPress}
+        style={{
+          position: 'absolute',
+          flex: 1,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height,
+          zIndex: 6,
+          // justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 30,
+            paddingTop: 80,
+            flex: 1,
+          }}>
+          <Text
+            style={{
+              fontSize: 20,
+              color: 'white',
+              textAlign: 'center',
+              paddingHorizontal: 30,
+            }}>
+            Select an area with a few meters of open space to build your
+            starship in.
+          </Text>
+        </View>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 30,
+            paddingTop: 50,
+            flex: 1,
+          }}>
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: '600',
+              color: 'white',
+              textAlign: 'center',
+              paddingHorizontal: 30,
+            }}>
+              Tap the screen to set Starship Build Location
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  };
+
   render() {
     return (
       <>
@@ -408,7 +510,9 @@ class App extends Component {
             flex: 1,
             zIndex: 4,
           }}>
-          {!this.state.gameStarted &&
+          {this.state.setBuildLocation && this.renderSetBuildLocation()}
+          {!this.state.setBuildLocation &&
+            !this.state.gameStarted &&
             !this.state.waitingForPlayers &&
             this.renderMainMenu()}
           {this.state.waitingForPlayers && this.renderWaitingForPlayers()}
@@ -505,6 +609,17 @@ class App extends Component {
               <RepairSpaceshipGame
                 gameStarted={this.state.gameStarted}
                 ref={node => (this.game = node)}
+              />
+            )}
+            {this.state.setBuildLocation && (
+              <ARKit.Plane
+                shape={{
+                  width: 0.2,
+                  height: 0.2,
+                }}
+                position={this.state.placementCursorPosition}
+                eulerAngles={{x: Math.PI / 2, y: 0, z: 0}}
+                transition={{duration: 0.3}}
               />
             )}
           </ARKit>
