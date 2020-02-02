@@ -29,6 +29,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      waitingForPlayers: false,
       gameStarted: false,
       isHost: false,
       connectedPeers: [],
@@ -43,7 +44,8 @@ class App extends Component {
   startHosting = () => {
     this.setState(
       {
-        gameStarted: true,
+        waitingForPlayers: true,
+        // gameStarted: true,
       },
       () => {
         ARKit.startBrowsingForPeers(this.state.hostGameName);
@@ -275,37 +277,71 @@ class App extends Component {
     console.log(hits);
   };
 
-  engineHit = () => {};
-
-  renderGame = () => {};
-
-  hitTest = async hitLocation => {
-    console.log('HIT LOCATION', hitLocation);
-    let hits = await ARKit.hitTestPlanes(hitLocation, 1);
-    if (hits.results && hits.results.length) {
-      this.setState({objectPosition: hits.results[0].position});
-    }
-  };
-
-  handlePressTest = async e => {
-    console.log('press test');
-    this.hitTest({
-      x: e.nativeEvent.pageX,
-      y: e.nativeEvent.pageY,
-    });
-    let hits = await ARKit.hitTestPlanes(
-      {
-        x: e.nativeEvent.pageX,
-        y: e.nativeEvent.pageY,
-      },
-      1,
+  renderWaitingForPlayers = () => {
+    return (
+      <SafeAreaView
+        style={{
+          position: 'absolute',
+          flex: 1,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height,
+          zIndex: 2,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: 30,
+              color: 'white',
+            }}>
+            Waiting for players to join.
+          </Text>
+        </View>
+        <Text
+          style={{
+            fontSize: 24,
+            color: 'white',
+          }}>
+          Connected players:{' '}
+          <Text
+            style={{
+              fontSize: 30,
+              color: 'white',
+              fontWeight: '600',
+            }}>
+            {this.state.connectedPeers.length}
+          </Text>
+        </Text>
+        <View
+          style={{
+            marginTop: 80,
+          }}>
+          <Button
+            onPress={() => {
+              this.setState({
+                waitingForPlayers: false,
+                gameStarted: true,
+              });
+            }}
+            title={'Start Game'}
+          />
+        </View>
+      </SafeAreaView>
     );
   };
 
   render() {
     return (
       <>
-        {!this.state.gameStarted && this.renderMainMenu()}
+        {!this.state.gameStarted &&
+          !this.state.waitingForPlayers &&
+          this.renderMainMenu()}
+        {this.state.waitingForPlayers && this.renderWaitingForPlayers()}
         {this.renderHostGameDialog()}
         {this.renderJoinGameDialog()}
         <View
