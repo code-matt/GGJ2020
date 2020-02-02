@@ -32,14 +32,16 @@ class Engine extends Component {
                   this.props.shipPosition,
                 ) < 0.05
               ) {
-                this.props.placeSpaceshipObject('engine');
+                this.props.placeSpaceshipObject(
+                  'engine',
+                  this.state.frontOfCameraPosition,
+                );
                 ARKit.sendDataToAllPeers({
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_placed',
                     partName: 'engine',
-                    position: frontOfCameraPosition,
-                    // if we ever get there post the team's time to some high score page
+                    position: this.state.frontOfCameraPosition,
                   },
                 });
               } else {
@@ -72,38 +74,21 @@ class Engine extends Component {
 
     // console.log('engine is repaired', this.props.isRepaired);
 
-    if (this.props.isRepaired) {
-      return (
-        <ARKit.Text
-          text="I am a engine"
-          position={this.props.position}
-          font={{size: 0.04, depth: 0.03}}
-          id={'engine'}
-          material={{color: 'green'}}
-          key="1"
-        />
-      );
-    } else {
-      return (
-        <ARKit.Text
-          transition={{duration: 0.3}}
-          text="I am a broken engine"
-          direction={this.state.linkedDirection}
-          orientation={this.state.linkedOrientation}
-          position={
-            this.props.isPickedUp
-              ? this.state.frontOfCameraPosition
-              : this.props.position
-          }
-          eulerAngles={this.state.linkedCamEulerAngles}
-          // rotation={this.state.linkedCamEulerAngles}
-          font={{size: 0.04, depth: 0.03}}
-          id={'engine'}
-          material={{color: 'red'}}
-          key="2"
-        />
-      );
-    }
+    return (
+      <ARKit.Text
+        transition={{duration: 0.3}}
+        text="I am a broken engine"
+        position={
+          this.props.isPickedUp
+            ? this.state.frontOfCameraPosition
+            : this.props.position
+        }
+        font={{size: 0.04, depth: 0.03}}
+        id={'engine'}
+        material={{color: this.props.isRepaired ? 'green' : 'red'}}
+        key={`engine-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
+      />
+    );
   }
 }
 
