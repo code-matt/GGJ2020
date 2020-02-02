@@ -13,6 +13,8 @@ import {ARKit} from 'react-native-arkit';
 
 import assembledShipData from './assmbledShipData';
 
+var Sound = require('react-native-sound');
+
 function distanceVector(v1, v2) {
   var dx = v1.x - v2.x;
   var dy = v1.y - v2.y;
@@ -222,6 +224,31 @@ class RepairSpaceshipGame extends Component {
   };
 
   pickupSpaceshipPart = (part, pickedUp, position) => {
+    if (pickedUp) {
+      this.pickUpSound();
+    } else {
+      var whoosh = new Sound('putdowncorrect.wav', Sound.MAIN_BUNDLE, error => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+        // loaded successfully
+        console.log(
+          'duration in seconds: ' +
+            whoosh.getDuration() +
+            'number of channels: ' +
+            whoosh.getNumberOfChannels(),
+        );
+        // Play the sound with an onEnd callback
+        whoosh.play(success => {
+          if (success) {
+            console.log('successfully finished playing');
+          } else {
+            console.log('playback failed due to audio decoding errors');
+          }
+        });
+      });
+    }
     this.setState(
       {
         starshipState: {
@@ -242,6 +269,30 @@ class RepairSpaceshipGame extends Component {
         console.log(this.state);
       },
     );
+  };
+
+  pickUpSound = () => {
+    var whoosh = new Sound('pickuppart.wav', Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log(
+        'duration in seconds: ' +
+          whoosh.getDuration() +
+          'number of channels: ' +
+          whoosh.getNumberOfChannels(),
+      );
+      // Play the sound with an onEnd callback
+      whoosh.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    });
   };
 
   render() {
@@ -381,7 +432,7 @@ class RepairSpaceshipGame extends Component {
           isPickedUp={brokenShipPickedUp}
           shipPosition={shipPosition}
         />
-        {this.renderDebugOffsets()}
+        {/* {this.renderDebugOffsets()} */}
       </>
     );
   }

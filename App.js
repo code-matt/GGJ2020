@@ -20,6 +20,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import DropdownAlert from 'react-native-dropdownalert';
+
 import RepairSpaceshipGame from './RepairSpaceshipGame';
 
 import {ARKit} from 'react-native-arkit';
@@ -129,12 +131,17 @@ class App extends Component {
   };
 
   setGameStarted = () => {
-    this.setState({
-      gameStarted: true,
-      waitingForPlayers: false,
-      setBuildLocation: false,
-      waitingForHostToStartGame: false,
-    });
+    this.setState(
+      {
+        gameStarted: true,
+        waitingForPlayers: false,
+        setBuildLocation: false,
+        waitingForHostToStartGame: false,
+      },
+      () => {
+        mainMusic.stop();
+      },
+    );
   };
 
   renderHostGameDialog = () => {
@@ -360,6 +367,14 @@ class App extends Component {
   };
 
   startGameForAll = buildLocation => {
+    mainMusic.stop();
+    ambientMusic.setVolume(0.5);
+    ambientMusic.play();
+    this.dropDownAlertRef.alertWithType(
+      'error',
+      'Meteor Incoming!!',
+      'Put your second ship back together like the first!',
+    );
     ARKit.sendDataToAllPeers({
       type: 'gameEvent',
       payload: {
@@ -764,6 +779,7 @@ class App extends Component {
             )}
           </ARKit>
         </View>
+        <DropdownAlert ref={ref => (this.dropDownAlertRef = ref)} />
       </>
     );
   }
@@ -819,3 +835,42 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
+const mainMusic = new Sound('titlemusicthree.wav', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log(
+    'duration in seconds: ' +
+      mainMusic.getDuration() +
+      'number of channels: ' +
+      mainMusic.getNumberOfChannels(),
+  );
+  // Play the sound with an onEnd callback
+  mainMusic.setNumberOfLoops(-1);
+  mainMusic.play(success => {
+    if (success) {
+      console.log('successfully finished playing');
+    } else {
+      console.log('playback failed due to audio decoding errors');
+    }
+  });
+});
+const ambientMusic = new Sound('ambientmusic.wav', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+});
+const incorrectHitSound = new Sound(
+  'putdownincorrect.wav',
+  Sound.MAIN_BUNDLE,
+  error => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+  },
+);
