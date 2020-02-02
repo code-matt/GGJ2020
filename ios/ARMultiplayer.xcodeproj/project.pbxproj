@@ -11,8 +11,6 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		5230D08223E6371C009FD9E8 /* PocketSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; };
-		5230D08323E6371C009FD9E8 /* PocketSVG.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5230D08C23E6546B009FD9E8 /* buttonpress.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5230D08B23E6546B009FD9E8 /* buttonpress.wav */; };
 		65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */; };
 		A4BFBE6423E651ED00F31F03 /* spaceship2.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A4BFBE6323E651ED00F31F03 /* spaceship2.scnassets */; };
@@ -34,20 +32,6 @@
 			remoteInfo = "PocketSVG (Mac)";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		5230D08423E6371C009FD9E8 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5230D08323E6371C009FD9E8 /* PocketSVG.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -78,7 +62,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */,
-				5230D08223E6371C009FD9E8 /* PocketSVG.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +175,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				5230D08423E6371C009FD9E8 /* Embed Frameworks */,
+				30EB362FADF8BEAA983E809E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -287,6 +270,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		30EB362FADF8BEAA983E809E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ARMultiplayer/Pods-ARMultiplayer-resources.sh",
+				"${PODS_ROOT}/PocketSVG/SVGColors.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVGColors.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ARMultiplayer/Pods-ARMultiplayer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		7A54FD5962A46F7D0BFA051F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -6,6 +6,7 @@ import Nosecone from './NoseCone';
 import RepairedShip from './RepairedShip';
 import ShipNeedsRepair from './ShipNeedsRepair';
 import Ship from './Ship';
+import {ARKit} from 'react-native-arkit';
 
 import assembledShipData from './assmbledShipData';
 
@@ -21,7 +22,7 @@ class RepairSpaceshipGame extends Component {
     super(props);
     this.partRefs = {};
     this.state = {
-      buildingLocation: null,
+      buildLocation: null,
       starshipState: {
         isRepaired: false,
         shipPosition: {x: -1, y: -0.3, z: 0.5},
@@ -150,6 +151,23 @@ class RepairSpaceshipGame extends Component {
         console.log(this.state);
       },
     );
+  };
+
+  startGameForAll = buildLocation => {
+    ARKit.sendDataToAllPeers({
+      type: 'gameEvent',
+      payload: {
+        eventName: 'game_start',
+        buildLocation: buildLocation,
+      },
+    });
+  };
+
+  onStartGameEvent = MPEvent => {
+    this.props.setState({
+      buildLocation: MPEvent.payload.buildLocation,
+    });
+    this.props.setGameStarted();
   };
 
   pickupSpaceshipPart = (part, pickedUp, position) => {

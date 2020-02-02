@@ -19,7 +19,7 @@ import {
 
 import RepairSpaceshipGame from './RepairSpaceshipGame';
 
-import {ARKit, withProjectedPosition} from 'react-native-arkit';
+import {ARKit} from 'react-native-arkit';
 
 import Dialog from 'react-native-dialog';
 import CountDown from 'react-native-countdown-component';
@@ -99,6 +99,14 @@ class App extends Component {
         Vibration.vibrate(300);
       },
     );
+  };
+
+  setGameStarted = () => {
+    this.setState({
+      gameStarted: true,
+      waitingForPlayers: false,
+      setBuildLocation: false,
+    });
   };
 
   renderHostGameDialog = () => {
@@ -310,20 +318,23 @@ class App extends Component {
   };
 
   handleBuildLocationPress = () => {
-        /**
+    /**
     |--------------------------------------------------
     | NEXT: if setCursorPosition then fire off multipeer event to start game with buildPosition!
     |--------------------------------------------------
     */
-   if (this.state.setBuildLocation) {
-    this.setState({
-      waitingForPlayers: false,
-      setBuildLocation: false,
-      gameStarted: true,
-    });
-    return;
-  }
-  }
+    if (this.state.setBuildLocation) {
+      this.setState(
+        {
+          waitingForPlayers: false,
+          setBuildLocation: false,
+          gameStarted: true,
+        },
+        () => this.game.startGameForAll(this.state.placementCursorPosition),
+      );
+      return;
+    }
+  };
 
   renderWaitingForPlayers = () => {
     return (
@@ -490,7 +501,7 @@ class App extends Component {
               textAlign: 'center',
               paddingHorizontal: 30,
             }}>
-              Tap the screen to set Starship Build Location
+            Tap the screen to set Starship Build Location
           </Text>
         </View>
       </SafeAreaView>
@@ -555,6 +566,15 @@ class App extends Component {
                     break;
                 }
               }
+              if (data.type === 'game_start') {
+                switch (data.payload.eventName) {
+                  case 'part_move':
+                    this.game.startGameForAll(data);
+                    break;
+                  default:
+                    break;
+                }
+              }
             }}
             onPeerConnected={event => {
               Vibration.vibrate(1000);
@@ -609,6 +629,7 @@ class App extends Component {
               <RepairSpaceshipGame
                 gameStarted={this.state.gameStarted}
                 ref={node => (this.game = node)}
+                setGameStarted={this.setGameStarted}
               />
             )}
             {this.state.setBuildLocation && (
