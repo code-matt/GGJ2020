@@ -15,6 +15,9 @@ import {
   SafeAreaView,
   Button,
   Vibration,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 
 import RepairSpaceshipGame from './RepairSpaceshipGame';
@@ -25,8 +28,15 @@ import SplashScreen from 'react-native-splash-screen';
 
 import Dialog from 'react-native-dialog';
 import CountDown from 'react-native-countdown-component';
+
 var Sound = require('react-native-sound');
-Sound.setCategory('Playback');
+
+const buttonClick = new Sound('buttonpress.wav', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+});
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -43,6 +53,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.disableYellowBox = true;
+    Sound.setCategory('Playback', true);
     this.state = {
       waitingForPlayers: false,
       gameStarted: false,
@@ -232,55 +243,44 @@ class App extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{color: '#fff', fontSize: 32}}>REPAIR IT</Text>
-        <Button
-          title="Host New Game"
-          style={{fontSize: 24, fontWeight: '600'}}
-          onPress={() => {
-            this.setState({
-              showHostGameDialog: true,
-            });
-
-            var whoosh = new Sound(
-              'buttonpress.wav',
-              Sound.MAIN_BUNDLE,
-              error => {
-                if (error) {
-                  console.log('failed to load the sound', error);
-                  return;
-                }
-                // loaded successfully
-                console.log(
-                  'duration in seconds: ' +
-                    whoosh.getDuration() +
-                    'number of channels: ' +
-                    whoosh.getNumberOfChannels(),
-                );
-
-                // Play the sound with an onEnd callback
-                whoosh.play(success => {
-                  if (success) {
-                    console.log('successfully finished playing');
-                  } else {
-                    console.log('playback failed due to audio decoding errors');
-                  }
-                });
-              },
-            );
-
-            console.log('host game');
-          }}
-        />
-        <Button
-          title="Join Existing Game"
-          style={{fontSize: 24, fontWeight: '600'}}
-          onPress={() => {
-            this.setState({
-              showJoinGameDialog: true,
-            });
-            console.log('join game');
-          }}
-        />
+        <View
+          style={{
+            position: 'absolute',
+            flex: 1,
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+            zIndex: -1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            source={require('./1024.png')}
+            style={{width: width, resizeMode: 'contain'}}
+          />
+        </View>
+        <View style={{marginTop: 450}}>
+          <TouchableOpacity
+            style={{marginBottom: 20, ...styles.menuBtn}}
+            onPress={() => {
+              buttonClick.play();
+              this.setState({
+                showHostGameDialog: true,
+              });
+            }}>
+            <Text style={styles.joinGameText}>Host New Game</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menuBtn}
+            onPress={() => {
+              buttonClick.play();
+              this.setState({
+                showJoinGameDialog: true,
+              });
+              console.log('join game');
+            }}>
+            <Text style={styles.joinGameText}>Join Existing Game</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   };
@@ -457,16 +457,17 @@ class App extends Component {
             marginTop: 80,
             marginBottom: 100,
           }}>
-          <Button
+          <TouchableOpacity
+            style={styles.menuBtn}
             onPress={() => {
               this.setState({
                 waitingForPlayers: false,
                 gameStarted: false,
                 setBuildLocation: true,
               });
-            }}
-            title={'Start Game'}
-          />
+            }}>
+            <Text style={styles.joinGameText}>Start Game</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
@@ -767,5 +768,54 @@ class App extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 24,
+  },
+  secondaryTitle: {
+    fontSize: 18,
+  },
+  dialog: {
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 12,
+  },
+  joinGameText: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'white',
+    paddingTop: 12,
+    paddingBottom: 12,
+    textAlign: 'left',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
+  dialogBtnCancel: {
+    color: '#F9282F',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  dialogBtnOk: {
+    color: '#1d0fb8',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  textShadow: {
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
+  menuBtn: {
+    backgroundColor: '#3553E9',
+    padding: 10,
+    borderRadius: 1,
+    borderWidth: 2,
+    textAlign: 'center',
+    borderColor: '#EE8C0B',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 250,
+  },
+});
 
 export default App;
