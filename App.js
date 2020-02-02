@@ -22,12 +22,14 @@ import RepairSpaceshipGame from './RepairSpaceshipGame';
 import {ARKit} from 'react-native-arkit';
 
 import Dialog from 'react-native-dialog';
+import CountDown from 'react-native-countdown-component';
 var Sound = require('react-native-sound');
 Sound.setCategory('Playback');
 
 class App extends Component {
   constructor(props) {
     super(props);
+    console.disableYellowBox = true;
     this.state = {
       waitingForPlayers: false,
       gameStarted: false,
@@ -285,10 +287,30 @@ class App extends Component {
           flex: 1,
           width: Dimensions.get('window').width,
           height: Dimensions.get('window').height,
-          zIndex: 2,
-          justifyContent: 'center',
+          zIndex: 6,
+          // justifyContent: 'center',
           alignItems: 'center',
         }}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 30,
+            paddingTop: 80,
+            flex: 1,
+          }}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'white',
+              textAlign: 'center',
+              paddingHorizontal: 30,
+            }}>
+            Map as much as your game play environment as possible to share with
+            your fellow players when you start! When you press start, look at an
+            interesting area together.
+          </Text>
+        </View>
         <View
           style={{
             justifyContent: 'center',
@@ -320,6 +342,7 @@ class App extends Component {
         <View
           style={{
             marginTop: 80,
+            marginBottom: 100,
           }}>
           <Button
             onPress={() => {
@@ -335,15 +358,65 @@ class App extends Component {
     );
   };
 
+  renderGameTimer = () => {
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          top: 40,
+          right: 40,
+          width: Dimensions.get('window').width,
+          height: 100,
+          flex: 1,
+          zIndex: 3,
+        }}>
+        <View style={{justifyContent: 'flex-end', flexDirection: 'row'}}>
+          <CountDown
+            until={60}
+            onFinish={() => {
+              this.onGameOverLose();
+            }}
+            onPress={() => {}}
+            size={20}
+            timeToShow={['S']}
+            running={this.state.gameStarted}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  onGameOverLose = () => {
+    this.setState({
+      gameOver: true,
+      gameLost: true,
+    });
+  };
+
+  renderGameOver = () => {};
+
   render() {
     return (
       <>
-        {!this.state.gameStarted &&
-          !this.state.waitingForPlayers &&
-          this.renderMainMenu()}
-        {this.state.waitingForPlayers && this.renderWaitingForPlayers()}
-        {this.renderHostGameDialog()}
-        {this.renderJoinGameDialog()}
+        {this.state.gameOver && this.renderGameOver()}
+        <View
+          pointerEvents={'box-none'}
+          style={{
+            position: 'absolute',
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+            flex: 1,
+            zIndex: 4,
+          }}>
+          {!this.state.gameStarted &&
+            !this.state.waitingForPlayers &&
+            this.renderMainMenu()}
+          {this.state.waitingForPlayers && this.renderWaitingForPlayers()}
+          {this.renderHostGameDialog()}
+          {this.renderJoinGameDialog()}
+          {(this.state.waitingForPlayers || this.state.gameStarted) &&
+            this.renderGameTimer()}
+        </View>
         <View
           style={{flex: 1, position: 'relative'}}
           onTouchEnd={e => {
@@ -352,6 +425,7 @@ class App extends Component {
             this.handlePress(e);
           }}>
           <ARKit
+            debug={this.state.waitingForPlayers}
             style={{flex: 1}}
             planeDetection={ARKit.ARPlaneDetection.Horizontal}
             lightEstimationEnabled
