@@ -4,15 +4,12 @@ import React, {Component} from 'react';
 class Ship extends Component {
   render() {
     return (
-      <ARKit.Text
-        text="I am a broken ship"
-        position={this.props.position}
-        font={{size: 0.05, depth: 0.05}}
-        id={'ship'}
-        material={{
-          color: this.props.isShipRepaired ? 'purple' : 'red',
+      <ARKit.Model
+        position={this.props.buildLocation}
+        scale={0.15}
+        model={{
+          file: 'spaceship2.scnassets/shipRepaired.scn',
         }}
-        key={`ship-${this.props.isShipRepaired ? '-repaired' : '-notrepaired'}`}
       />
     );
   }

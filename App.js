@@ -283,11 +283,12 @@ class App extends Component {
       console.log('object hit!', hits.results[0]);
       const {position} = hits.results[0];
       console.log({position});
-      // debugger
+      // case nosecone:
       switch (id) {
         case 'engine':
         case 'cockpit':
-        case 'nosecone':
+        case 'fin':
+        case 'wing':
           let pickedUp = this.game.isPartPickedUp(id);
           if (pickedUp) {
             this.game.pickupSpaceshipPart(id, false, pickedUp.position);
@@ -588,7 +589,10 @@ class App extends Component {
             this.handlePress(e);
           }}>
           <ARKit
-            debug={this.state.waitingForPlayers}
+            debug={
+              this.state.waitingForPlayers ||
+              this.state.waitingForHostToStartGame
+            }
             style={{flex: 1}}
             planeDetection={ARKit.ARPlaneDetection.Horizontal}
             lightEstimationEnabled

@@ -1,5 +1,5 @@
+import {ARKit} from 'react-native-arkit';
 import React, {Component} from 'react';
-import ARKit from 'react-native-arkit/ARKit';
 
 function distanceVector(v1, v2) {
   var dx = v1.x - v2.x;
@@ -8,9 +8,9 @@ function distanceVector(v1, v2) {
 
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
-class ShipNeedsRepair extends Component {
+class Fin extends Component {
   state = {
-    frontOfCameraPosition: {x: 0, y: 0, z: 0},
+    frontOfCameraPosition: {x: 0, y: 0, z: 1},
   };
   componentDidUpdate(prevProps, prevState) {
     if (this.props.isPickedUp !== prevProps.isPickedUp) {
@@ -33,14 +33,14 @@ class ShipNeedsRepair extends Component {
                 ) < 0.05
               ) {
                 this.props.placeSpaceshipObject(
-                  'engine',
+                  'fin',
                   this.state.frontOfCameraPosition,
                 );
                 ARKit.sendDataToAllPeers({
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_placed',
-                    partName: 'engine',
+                    partName: 'fin',
                     position: this.state.frontOfCameraPosition,
                   },
                 });
@@ -49,7 +49,7 @@ class ShipNeedsRepair extends Component {
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_move',
-                    partName: 'engine',
+                    partName: 'fin',
                     position: frontOfCameraPosition,
                   },
                 });
@@ -62,17 +62,25 @@ class ShipNeedsRepair extends Component {
       }
     }
   }
+
   render() {
     return (
       <ARKit.Model
-        position={this.props.buildLocation}
         scale={0.15}
         model={{
-          file: 'spaceship2.scnassets/shipNeedsRepair.scn',
+          file: 'spaceship2.scnassets/shipFin.scn',
         }}
+        transition={{duration: 0.3}}
+        position={
+          this.props.isPickedUp
+            ? this.state.frontOfCameraPosition
+            : this.props.position
+        }
+        id={'fin'}
+        key={`fin-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
       />
     );
   }
 }
 
-export default ShipNeedsRepair;
+export default Fin;

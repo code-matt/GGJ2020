@@ -4,6 +4,9 @@ import Cockpit from './Cockpit';
 import Engine from './Engine';
 import Nosecone from './NoseCone';
 import RepairedShip from './RepairedShip';
+import Fin from './Fin';
+import Wing from './Wing';
+import Door from './Door';
 import ShipNeedsRepair from './ShipNeedsRepair';
 import Ship from './Ship';
 import {ARKit} from 'react-native-arkit';
@@ -38,15 +41,30 @@ class RepairSpaceshipGame extends Component {
             isPickedUp: false,
             position: {x: 0.7, y: 0, z: 1},
           },
-          nosecone: {
+          // nosecone: {
+          //   isRepaired: false,
+          //   isPickedUp: false,
+          //   position: {x: -0.5, y: 0.02, z: 0.5},
+          // },
+          fin: {
             isRepaired: false,
             isPickedUp: false,
             position: {x: -0.5, y: 0.02, z: 0.5},
           },
+          wing: {
+            isRepaired: false,
+            isPickedUp: false,
+            position: {x: 1.5, y: 0.02, z: -0.5},
+          },
           ship: {
             isRepaired: false,
             isPickedUp: false,
-            position: {x: -1.01, y: -0.4, z: 0.5},
+            position: {x: -0.8, y: -0.3, z: 1.2},
+          },
+          door: {
+            isRepaired: false,
+            isPickedUp: false,
+            position: {x: -0.8, y: -0.3, z: 1.2},
           },
         },
       },
@@ -57,17 +75,19 @@ class RepairSpaceshipGame extends Component {
     this.checkCompletionInterval = setInterval(() => {
       assembledShipData.forEach(part => {
         const offsetVector = {
-          x: this.state.starshipState.shipPosition.x + part.validOffset.x,
-          y: this.state.starshipState.shipPosition.y + part.validOffset.y,
-          z: this.state.starshipState.shipPosition.z + part.validOffset.z,
+          x: this.props.buildLocation.x + part.validOffset.x,
+          y: this.props.buildLocation.y + part.validOffset.y,
+          z: this.props.buildLocation.z + part.validOffset.z,
         };
         if (
           distanceVector(
             offsetVector,
             this.state.starshipState.parts[part.name].position,
-          ) < 1
+          ) < 0.5
         ) {
-          Vibration.vibrate(400);
+          if (part.name === 'engine') {
+            Vibration.vibrate(400);
+          }
         }
       });
     }, 500);
@@ -153,6 +173,38 @@ class RepairSpaceshipGame extends Component {
     );
   };
 
+  renderDebugOffsets = () => {
+    let keys = Object.keys(this.state.starshipState.parts);
+    return keys.map(partName => {
+      if (partName === 'ship') {
+        return null;
+      }
+      let assembledDataIdx = assembledShipData.findIndex(
+        d => d.name === partName,
+      );
+      const offsetVector = {
+        x:
+          this.props.buildLocation.x +
+          assembledShipData[assembledDataIdx].validOffset.x,
+        y:
+          this.props.buildLocation.y +
+          assembledShipData[assembledDataIdx].validOffset.y,
+        z:
+          this.props.buildLocation.z +
+          assembledShipData[assembledDataIdx].validOffset.z,
+      };
+      return (
+        <ARKit.Box
+          position={offsetVector}
+          shape={{width: 0.1, height: 0.1, length: 0.1, chamfer: 0.01}}
+          material={{
+            color: assembledShipData[assembledDataIdx].debugBoxColor,
+          }}
+        />
+      );
+    });
+  };
+
   pickupSpaceshipPart = (part, pickedUp, position) => {
     this.setState(
       {
@@ -187,15 +239,30 @@ class RepairSpaceshipGame extends Component {
             isRepaired: engineIsRepaired,
             isPickedUp: enginePickedUp,
           },
-          nosecone: {
-            position: noseconePosition,
-            isRepaired: noseconeIsRepaired,
-            isPickedUp: noseconePickedUp,
-          },
+          // nosecone: {
+          //   position: noseconePosition,
+          //   isRepaired: noseconeIsRepaired,
+          //   isPickedUp: noseconePickedUp,
+          // },
           cockpit: {
             position: cockpitPosition,
             isRepaired: cockpitIsRepaired,
             isPickedUp: cockpitPickedUp,
+          },
+          wing: {
+            position: wingPosition,
+            isRepaired: wingIsRepaired,
+            isPickedUp: wingPickedUp,
+          },
+          fin: {
+            position: finPosition,
+            isRepaired: finIsRepaired,
+            isPickedUp: finPickedUp,
+          },
+          door: {
+            position: doorPosition,
+            isRepaired: doorIsRepaired,
+            isPickedUp: doorPickedUp,
           },
           ship: {
             position: brokenShipPosition,
@@ -210,7 +277,14 @@ class RepairSpaceshipGame extends Component {
 
     return (
       <>
-        <Ship position={shipPosition} isShipRepaired={isShipRepaired} />
+        <Ship
+          buildLocation={{
+            x: this.props.buildLocation.x + 0.2,
+            y: this.props.buildLocation.y + 1,
+            z: this.props.buildLocation.z - 1.5,
+          }}
+          isShipRepaired={isShipRepaired}
+        />
         <Engine
           ref={node => (this.partRefs.engine = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
@@ -219,14 +293,14 @@ class RepairSpaceshipGame extends Component {
           isPickedUp={enginePickedUp}
           shipPosition={shipPosition}
         />
-        <Nosecone
+        {/* <Nosecone
           ref={node => (this.partRefs.nosecone = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={noseconePosition}
           isRepaired={noseconeIsRepaired}
           isPickedUp={noseconePickedUp}
           shipPosition={shipPosition}
-        />
+        /> */}
         <Cockpit
           ref={node => (this.partRefs.cockpit = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
@@ -235,14 +309,44 @@ class RepairSpaceshipGame extends Component {
           isPickedUp={cockpitPickedUp}
           shipPosition={shipPosition}
         />
+        <Door
+          ref={node => (this.partRefs.door = node)}
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={doorPosition}
+          isRepaired={doorIsRepaired}
+          isPickedUp={doorPickedUp}
+          shipPosition={shipPosition}
+        />
+        <Fin
+          ref={node => (this.partRefs.fin = node)}
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={finPosition}
+          isRepaired={finIsRepaired}
+          isPickedUp={finPickedUp}
+          shipPosition={shipPosition}
+        />
+        <Wing
+          ref={node => (this.partRefs.wing = node)}
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={wingPosition}
+          isRepaired={wingIsRepaired}
+          isPickedUp={wingPickedUp}
+          shipPosition={shipPosition}
+        />
         {/* <RepairedShip /> */}
         <ShipNeedsRepair
+          buildLocation={{
+            x: this.props.buildLocation.x,
+            y: this.props.buildLocation.y + 1,
+            z: this.props.buildLocation.z,
+          }}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={brokenShipPosition}
           isRepaired={brokenShipIsRepaired}
           isPickedUp={brokenShipPickedUp}
           shipPosition={shipPosition}
         />
+        {this.renderDebugOffsets()}
       </>
     );
   }
