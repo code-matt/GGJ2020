@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		5230D08223E6371C009FD9E8 /* PocketSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; };
 		5230D08323E6371C009FD9E8 /* PocketSVG.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5230D08C23E6546B009FD9E8 /* buttonpress.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5230D08B23E6546B009FD9E8 /* buttonpress.wav */; };
 		65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ARMultiplayer/main.m; sourceTree = "<group>"; };
 		270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARMultiplayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PocketSVG.xcodeproj; path = "../node_modules/react-native-arkit/ios/PocketSVG/PocketSVG.xcodeproj"; sourceTree = "<group>"; };
+		5230D08723E65449009FD9E8 /* Button Select FX.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Button Select FX.wav"; path = "../../../Downloads/soundfx/Button Select FX.wav"; sourceTree = "<group>"; };
+		5230D08B23E6546B009FD9E8 /* buttonpress.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = buttonpress.wav; path = ../../../Downloads/soundfx/buttonpress.wav; sourceTree = "<group>"; };
 		A42C92FE23E5D8A900847044 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1908E3981DB370883F8844B /* Pods-ARMultiplayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARMultiplayer.release.xcconfig"; path = "Target Support Files/Pods-ARMultiplayer/Pods-ARMultiplayer.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -104,7 +107,6 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				A40A4BD723E6104800024F0B /* spaceship.scnassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -143,6 +145,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				5230D08B23E6546B009FD9E8 /* buttonpress.wav */,
+				5230D08723E65449009FD9E8 /* Button Select FX.wav */,
 				13B07FAE1A68108700A75B9A /* ARMultiplayer */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ARMultiplayerTests */,
@@ -257,8 +261,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5230D08C23E6546B009FD9E8 /* buttonpress.wav in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				A40A4BD823E6104800024F0B /* spaceship.scnassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

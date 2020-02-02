@@ -22,6 +22,8 @@ import RepairSpaceshipGame from './RepairSpaceshipGame';
 import {ARKit} from 'react-native-arkit';
 
 import Dialog from 'react-native-dialog';
+var Sound = require('react-native-sound');
+Sound.setCategory('Playback');
 
 class App extends Component {
   constructor(props) {
@@ -195,6 +197,34 @@ class App extends Component {
             this.setState({
               showHostGameDialog: true,
             });
+
+            var whoosh = new Sound(
+              'buttonpress.wav',
+              Sound.MAIN_BUNDLE,
+              error => {
+                if (error) {
+                  console.log('failed to load the sound', error);
+                  return;
+                }
+                // loaded successfully
+                console.log(
+                  'duration in seconds: ' +
+                    whoosh.getDuration() +
+                    'number of channels: ' +
+                    whoosh.getNumberOfChannels(),
+                );
+
+                // Play the sound with an onEnd callback
+                whoosh.play(success => {
+                  if (success) {
+                    console.log('successfully finished playing');
+                  } else {
+                    console.log('playback failed due to audio decoding errors');
+                  }
+                });
+              },
+            );
+
             console.log('host game');
           }}
         />
