@@ -42,6 +42,7 @@ class App extends Component {
       showHostGameDialog: false,
       joinGameName: null,
       showJoinGameDialog: false,
+      waitingForHostToStartGame: false,
       engineLocation: {x: 0, y: 0, z: 0},
       placementCursorPosition: {x: 0, y: 0, z: 0},
     };
@@ -92,7 +93,8 @@ class App extends Component {
   joinGame = () => {
     this.setState(
       {
-        gameStarted: true,
+        // gameStarted: true,
+        waitingForHostToStartGame: true,
       },
       () => {
         ARKit.advertiseReadyToJoinSession(this.state.joinGameName);
@@ -106,6 +108,7 @@ class App extends Component {
       gameStarted: true,
       waitingForPlayers: false,
       setBuildLocation: false,
+      waitingForHostToStartGame: false,
     });
   };
 
@@ -329,11 +332,22 @@ class App extends Component {
           waitingForPlayers: false,
           setBuildLocation: false,
           gameStarted: true,
+          buildLocation: this.state.placementCursorPosition,
         },
-        () => this.game.startGameForAll(this.state.placementCursorPosition),
+        () => this.startGameForAll(this.state.placementCursorPosition),
       );
       return;
     }
+  };
+
+  startGameForAll = buildLocation => {
+    ARKit.sendDataToAllPeers({
+      type: 'gameEvent',
+      payload: {
+        eventName: 'game_start',
+        buildLocation: buildLocation,
+      },
+    });
   };
 
   renderWaitingForPlayers = () => {
@@ -508,6 +522,37 @@ class App extends Component {
     );
   };
 
+  renderWaitingForHostToStart = () => {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 30,
+          paddingTop: 200,
+          flex: 1,
+        }}>
+        <Text
+          style={{
+            fontSize: 22,
+            fontWeight: '600',
+            color: 'white',
+            textAlign: 'center',
+            paddingHorizontal: 30,
+          }}>
+          Waiting For Host To Pick Build Location And Start The Game
+        </Text>
+      </View>
+    );
+  };
+
+  onStartGameEvent = MPEvent => {
+    this.setState({
+      buildLocation: MPEvent.payload.buildLocation,
+    });
+    this.setGameStarted();
+  };
+
   render() {
     return (
       <>
@@ -521,8 +566,11 @@ class App extends Component {
             flex: 1,
             zIndex: 4,
           }}>
+          {this.state.waitingForHostToStartGame &&
+            this.renderWaitingForHostToStart()}
           {this.state.setBuildLocation && this.renderSetBuildLocation()}
-          {!this.state.setBuildLocation &&
+          {!this.state.waitingForHostToStartGame &&
+            !this.state.setBuildLocation &&
             !this.state.gameStarted &&
             !this.state.waitingForPlayers &&
             this.renderMainMenu()}
@@ -566,10 +614,10 @@ class App extends Component {
                     break;
                 }
               }
-              if (data.type === 'game_start') {
+              if (data.type === 'gameEvent') {
                 switch (data.payload.eventName) {
-                  case 'part_move':
-                    this.game.startGameForAll(data);
+                  case 'game_start':
+                    this.onStartGameEvent(data);
                     break;
                   default:
                     break;
@@ -630,6 +678,7 @@ class App extends Component {
                 gameStarted={this.state.gameStarted}
                 ref={node => (this.game = node)}
                 setGameStarted={this.setGameStarted}
+                buildLocation={this.state.buildLocation}
               />
             )}
             {this.state.setBuildLocation && (

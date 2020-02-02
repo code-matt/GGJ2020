@@ -153,23 +153,6 @@ class RepairSpaceshipGame extends Component {
     );
   };
 
-  startGameForAll = buildLocation => {
-    ARKit.sendDataToAllPeers({
-      type: 'gameEvent',
-      payload: {
-        eventName: 'game_start',
-        buildLocation: buildLocation,
-      },
-    });
-  };
-
-  onStartGameEvent = MPEvent => {
-    this.props.setState({
-      buildLocation: MPEvent.payload.buildLocation,
-    });
-    this.props.setGameStarted();
-  };
-
   pickupSpaceshipPart = (part, pickedUp, position) => {
     this.setState(
       {
