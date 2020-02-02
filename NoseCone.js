@@ -1,5 +1,5 @@
+import {ARKit} from 'react-native-arkit';
 import React, {Component} from 'react';
-import ARKit from 'react-native-arkit/ARKit';
 
 function distanceVector(v1, v2) {
   var dx = v1.x - v2.x;
@@ -8,9 +8,9 @@ function distanceVector(v1, v2) {
 
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
-class NoseCone extends Component {
+class Nosecone extends Component {
   state = {
-    frontOfCameraPosition: {x: 0, y: 0, z: 0},
+    frontOfCameraPosition: {x: 0, y: 0, z: 1},
   };
   componentDidUpdate(prevProps, prevState) {
     if (this.props.isPickedUp !== prevProps.isPickedUp) {
@@ -33,14 +33,14 @@ class NoseCone extends Component {
                 ) < 0.05
               ) {
                 this.props.placeSpaceshipObject(
-                  'noseCone',
+                  'nosecone',
                   this.state.frontOfCameraPosition,
                 );
                 ARKit.sendDataToAllPeers({
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_placed',
-                    partName: 'noseCone',
+                    partName: 'nosecone',
                     position: this.state.frontOfCameraPosition,
                   },
                 });
@@ -49,7 +49,7 @@ class NoseCone extends Component {
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_move',
-                    partName: 'noseCone',
+                    partName: 'nosecone',
                     position: frontOfCameraPosition,
                   },
                 });
@@ -62,21 +62,25 @@ class NoseCone extends Component {
       }
     }
   }
+
   render() {
-    const {position} = this.props;
     return (
       <ARKit.Model
-        id="noseCone"
-        position={
-          this.props.isPickedUp ? this.state.frontOfCameraPosition : position
-        }
-        scale={0.1}
+        scale={0.15}
         model={{
           file: 'spaceship2.scnassets/shipNoseCone.scn',
         }}
+        transition={{duration: 0.3}}
+        position={
+          this.props.isPickedUp
+            ? this.state.frontOfCameraPosition
+            : this.props.position
+        }
+        id={'nosecone'}
+        key={`nosecone-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
       />
     );
   }
 }
 
-export default NoseCone;
+export default Nosecone;

@@ -68,18 +68,15 @@ class Engine extends Component {
       <ARKit.Model
         scale={0.15}
         model={{
-          file: 'spaceship2.scnassets/shipCockpit.scn',
+          file: 'spaceship2.scnassets/shipEngine.scn',
         }}
         transition={{duration: 0.3}}
-        // text="I am a broken engine"
         position={
           this.props.isPickedUp
             ? this.state.frontOfCameraPosition
             : this.props.position
         }
-        // font={{size: 0.04, depth: 0.03}}
         id={'engine'}
-        // material={{color: this.props.isRepaired ? 'green' : 'red'}}
         key={`engine-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
       />
     );

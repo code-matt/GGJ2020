@@ -19,6 +19,6 @@ class RepairedShip extends Component {
 
 export default RepairedShip;
 
-function deg2rad (degrees) {
-	return degrees * Math.PI / 180;
-};
+function deg2rad(degrees) {
+  return (degrees * Math.PI) / 180;
+}

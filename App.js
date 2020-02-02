@@ -36,25 +36,9 @@ class App extends Component {
       showHostGameDialog: false,
       joinGameName: null,
       showJoinGameDialog: false,
-      objectPosition: {},
-      cameraInfo: {},
-      cameraPosition: {},
-      cameraEulerAngles: {},
-      cameraOrientation: {},
-      cameraRotation: {},
       engineLocation: {x: 0, y: 0, z: 0},
     };
   }
-
-  componentDidMount = async () => {
-    setInterval(async () => {
-      const cameraInfo = await ARKit.getCamera();
-      const {eulerAngles, orientation, position} = cameraInfo;
-      this.setState({cameraPosition: position});
-      this.setState({cameraEulerAngles: eulerAngles});
-      this.setState({cameraOrientation: orientation});
-    }, 500);
-  };
 
   startHosting = () => {
     this.setState(
@@ -249,16 +233,17 @@ class App extends Component {
       x: pageX,
       y: pageY,
     });
-    let event = e;
     let id = hits.results && hits.results.length && hits.results[0].id;
     if (id) {
       console.log('object hit!', hits.results[0]);
       const {position} = hits.results[0];
       console.log({position});
+      // debugger
       switch (id) {
         case 'engine':
-          this.game.pickupSpaceshipPart('engine', true);
-          // this.game.repairSpaceshipSection('engine');
+        case 'cockpit':
+        case 'nosecone':
+          this.game.pickupSpaceshipPart(id, true);
           Vibration.vibrate(500);
           break;
         case 'ship':
@@ -310,19 +295,6 @@ class App extends Component {
       1,
     );
   };
-
-  // renderObject = () => {
-  //   console.log('here', this.state.objectPosition);
-  //   return (
-  //     <ARKit.Model
-  //       position={this.state.objectPosition}
-  //       scale={1}
-  //       model={{
-  //         file: 'spaceship2.scnassets/shipModel.scn',
-  //       }}
-  //     />
-  //   );
-  // };
 
   render() {
     return (
