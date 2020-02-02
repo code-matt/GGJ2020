@@ -1,5 +1,5 @@
-import {ARKit} from 'react-native-arkit';
 import React, {Component} from 'react';
+import ARKit from 'react-native-arkit/ARKit';
 
 function distanceVector(v1, v2) {
   var dx = v1.x - v2.x;
@@ -8,7 +8,7 @@ function distanceVector(v1, v2) {
 
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
-class Engine extends Component {
+class NoseCone extends Component {
   state = {
     frontOfCameraPosition: {x: 0, y: 0, z: 0},
   };
@@ -33,14 +33,14 @@ class Engine extends Component {
                 ) < 0.05
               ) {
                 this.props.placeSpaceshipObject(
-                  'engine',
+                  'noseCone',
                   this.state.frontOfCameraPosition,
                 );
                 ARKit.sendDataToAllPeers({
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_placed',
-                    partName: 'engine',
+                    partName: 'noseCone',
                     position: this.state.frontOfCameraPosition,
                   },
                 });
@@ -49,7 +49,7 @@ class Engine extends Component {
                   type: 'userEvent',
                   payload: {
                     eventName: 'part_move',
-                    partName: 'engine',
+                    partName: 'noseCone',
                     position: frontOfCameraPosition,
                   },
                 });
@@ -62,24 +62,21 @@ class Engine extends Component {
       }
     }
   }
-
   render() {
+    const {position} = this.props;
     return (
-      <ARKit.Text
-        transition={{duration: 0.3}}
-        text="I am a broken engine"
+      <ARKit.Model
+        id="noseCone"
         position={
-          this.props.isPickedUp
-            ? this.state.frontOfCameraPosition
-            : this.props.position
+          this.props.isPickedUp ? this.state.frontOfCameraPosition : position
         }
-        font={{size: 0.04, depth: 0.03}}
-        id={'engine'}
-        material={{color: this.props.isRepaired ? 'green' : 'red'}}
-        key={`engine-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
+        scale={0.1}
+        model={{
+          file: 'spaceship2.scnassets/shipNoseCone.scn',
+        }}
       />
     );
   }
 }
 
-export default Engine;
+export default NoseCone;

@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 
-import Ship from './Ship';
+import Cockpit from './Cockpit';
 import Engine from './Engine';
-import {ARKit} from 'react-native-arkit';
+import NoseCone from './NoseCone';
+import RepairedShip from './RepairedShip';
+import ShipNeedsRepair from './ShipNeedsRepair';
+import Ship from './Ship';
 
 class RepairSpaceshipGame extends Component {
   state = {
@@ -15,6 +18,21 @@ class RepairSpaceshipGame extends Component {
           isPickedUp: false,
           position: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
           // ship in order to repair it.
+        },
+        cockpit: {
+          isRepaired: false,
+          isPickedUp: false,
+          position: {x: 0, y: 0, z: 0},
+        },
+        noseCone: {
+          isRepaired: false,
+          isPickedUp: false,
+          position: {x: 0, y: 0.02, z: 0},
+        },
+        ship: {
+          isRepaired: false,
+          isPickedUp: false,
+          position: {x: -1.01, y: -0.4, z: 0.5},
         },
       },
     },
@@ -119,6 +137,21 @@ class RepairSpaceshipGame extends Component {
             isRepaired: engineIsRepaired,
             isPickedUp: enginePickedUp,
           },
+          noseCone: {
+            position: noseConePosition,
+            isRepaired: noseConeIsRepaired,
+            isPickedUp: noseConePickedUp,
+          },
+          cockpit: {
+            position: cockpitPosition,
+            isRepaired: cockpitIsRepaired,
+            isPickedUp: cockpitPickedUp,
+          },
+          ship: {
+            position: brokenShipPosition,
+            isRepaired: brokenShipIsRepaired,
+            isPickedUp: brokenShipPickedUp,
+          },
         },
       },
     } = this.state;
@@ -133,6 +166,28 @@ class RepairSpaceshipGame extends Component {
           position={enginePosition}
           isRepaired={engineIsRepaired}
           isPickedUp={enginePickedUp}
+          shipPosition={shipPosition}
+        />
+        <NoseCone
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={noseConePosition}
+          isRepaired={noseConeIsRepaired}
+          isPickedUp={noseConePickedUp}
+          shipPosition={shipPosition}
+        />
+        <Cockpit
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={cockpitPosition}
+          isRepaired={cockpitIsRepaired}
+          isPickedUp={cockpitPickedUp}
+          shipPosition={shipPosition}
+        />
+        <RepairedShip />
+        <ShipNeedsRepair
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={brokenShipPosition}
+          isRepaired={brokenShipIsRepaired}
+          isPickedUp={brokenShipPickedUp}
           shipPosition={shipPosition}
         />
       </>

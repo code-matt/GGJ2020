@@ -1,5 +1,5 @@
-import {ARKit} from 'react-native-arkit';
 import React, {Component} from 'react';
+import ARKit from 'react-native-arkit/ARKit';
 
 function distanceVector(v1, v2) {
   var dx = v1.x - v2.x;
@@ -8,7 +8,7 @@ function distanceVector(v1, v2) {
 
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
-class Engine extends Component {
+class ShipNeedsRepair extends Component {
   state = {
     frontOfCameraPosition: {x: 0, y: 0, z: 0},
   };
@@ -62,24 +62,17 @@ class Engine extends Component {
       }
     }
   }
-
   render() {
     return (
-      <ARKit.Text
-        transition={{duration: 0.3}}
-        text="I am a broken engine"
-        position={
-          this.props.isPickedUp
-            ? this.state.frontOfCameraPosition
-            : this.props.position
-        }
-        font={{size: 0.04, depth: 0.03}}
-        id={'engine'}
-        material={{color: this.props.isRepaired ? 'green' : 'red'}}
-        key={`engine-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
+      <ARKit.Model
+        position={{x: -1.01, y: -0.01, z: 0}}
+        scale={0.01}
+        model={{
+          file: 'spaceship2.scnassets/shipNeedsRepair.scn',
+        }}
       />
     );
   }
 }
 
-export default Engine;
+export default ShipNeedsRepair;
