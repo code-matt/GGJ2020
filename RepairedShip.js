@@ -9,7 +9,7 @@ class RepairedShip extends Component {
         position={{x: 0.01, y: 0.01, z: 0}}
         scale={0.01}
         model={{
-          file: 'spaceship.scnassets/shipRepaired.scn',
+          file: 'spaceship2.scnassets/shipRepaired.scn',
         }}
       />
     );

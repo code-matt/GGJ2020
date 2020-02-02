@@ -22,12 +22,17 @@ class RepairSpaceshipGame extends Component {
         cockpit: {
           isRepaired: false,
           isPickedUp: false,
-          position: {x: 0.01, y: 0, z: 0},
+          position: {x: 0, y: 0, z: 0},
         },
         noseCone: {
           isRepaired: false,
           isPickedUp: false,
           position: {x: 0, y: 0.02, z: 0},
+        },
+        ship: {
+          isRepaired: false,
+          isPickedUp: false,
+          position: {x: -1.01, y: -0.4, z: 0.5},
         },
       },
     },
@@ -142,6 +147,11 @@ class RepairSpaceshipGame extends Component {
             isRepaired: cockpitIsRepaired,
             isPickedUp: cockpitPickedUp,
           },
+          ship: {
+            position: brokenShipPosition,
+            isRepaired: brokenShipIsRepaired,
+            isPickedUp: brokenShipPickedUp,
+          },
         },
       },
     } = this.state;
@@ -158,10 +168,28 @@ class RepairSpaceshipGame extends Component {
           isPickedUp={enginePickedUp}
           shipPosition={shipPosition}
         />
-        <NoseCone position={noseConePosition} />
-        <Cockpit position={cockpitPosition} />
+        <NoseCone
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={noseConePosition}
+          isRepaired={noseConeIsRepaired}
+          isPickedUp={noseConePickedUp}
+          shipPosition={shipPosition}
+        />
+        <Cockpit
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={cockpitPosition}
+          isRepaired={cockpitIsRepaired}
+          isPickedUp={cockpitPickedUp}
+          shipPosition={shipPosition}
+        />
         <RepairedShip />
-        <ShipNeedsRepair />
+        <ShipNeedsRepair
+          placeSpaceshipObject={this.placeSpaceshipObject}
+          position={brokenShipPosition}
+          isRepaired={brokenShipIsRepaired}
+          isPickedUp={brokenShipPickedUp}
+          shipPosition={shipPosition}
+        />
       </>
     );
   }

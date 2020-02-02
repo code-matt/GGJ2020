@@ -288,7 +288,7 @@ class App extends Component {
   //       position={this.state.objectPosition}
   //       scale={1}
   //       model={{
-  //         file: 'spaceship.scnassets/shipModel.scn',
+  //         file: 'spaceship2.scnassets/shipModel.scn',
   //       }}
   //     />
   //   );
