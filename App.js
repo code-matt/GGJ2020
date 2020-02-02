@@ -289,6 +289,7 @@ class App extends Component {
         case 'cockpit':
         case 'fin':
         case 'wing':
+        case 'door':
           let pickedUp = this.game.isPartPickedUp(id);
           if (pickedUp) {
             this.game.pickupSpaceshipPart(id, false, pickedUp.position);
@@ -347,6 +348,29 @@ class App extends Component {
       payload: {
         eventName: 'game_start',
         buildLocation: buildLocation,
+      },
+    });
+  };
+
+  endGame = gameWon => {
+    this.setState(
+      {
+        gameWon,
+        gameOver: true,
+        gameStarted: false,
+      },
+      () => {
+        this.endGameForAll(gameWon);
+      },
+    );
+  };
+
+  endGameForAll = gameWon => {
+    ARKit.sendDataToAllPeers({
+      type: 'gameEvent',
+      payload: {
+        eventName: 'game_end',
+        gameWon,
       },
     });
   };
@@ -447,7 +471,7 @@ class App extends Component {
           <CountDown
             until={60}
             onFinish={() => {
-              this.onGameOverLose();
+              this.endGame(false);
             }}
             onPress={() => {}}
             size={20}
@@ -466,7 +490,29 @@ class App extends Component {
     });
   };
 
-  renderGameOver = () => {};
+  renderGameOver = () => {
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          flex: 1,
+          width: Dimensions.get('window').width,
+          height: Dimensions.get('window').height,
+          zIndex: 2,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: 30,
+            color: 'white',
+            fontWeight: '600',
+          }}>
+          You {this.state.gameLost ? 'Lost' : 'Won!!'}
+        </Text>
+      </View>
+    );
+  };
 
   renderSetBuildLocation = () => {
     return (
@@ -570,7 +616,8 @@ class App extends Component {
           {this.state.waitingForHostToStartGame &&
             this.renderWaitingForHostToStart()}
           {this.state.setBuildLocation && this.renderSetBuildLocation()}
-          {!this.state.waitingForHostToStartGame &&
+          {!this.state.gameOver &&
+            !this.state.waitingForHostToStartGame &&
             !this.state.setBuildLocation &&
             !this.state.gameStarted &&
             !this.state.waitingForPlayers &&
@@ -677,8 +724,9 @@ class App extends Component {
               );
             }}>
             {/* {this.state.objectPosition && this.renderObject()} */}
-            {this.state.gameStarted && (
+            {(this.state.gameStarted || this.state.gameOver) && (
               <RepairSpaceshipGame
+                endGame={this.endGame}
                 gameStarted={this.state.gameStarted}
                 ref={node => (this.game = node)}
                 setGameStarted={this.setGameStarted}

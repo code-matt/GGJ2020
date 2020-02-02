@@ -85,9 +85,7 @@ class RepairSpaceshipGame extends Component {
             this.state.starshipState.parts[part.name].position,
           ) < 0.5
         ) {
-          if (part.name === 'engine') {
-            Vibration.vibrate(400);
-          }
+          this.repairSpaceshipSection(part.name);
         }
       });
     }, 500);
@@ -107,7 +105,12 @@ class RepairSpaceshipGame extends Component {
   };
 
   isShipRepaired = () => {
-    let repaired = this.state.starshipState.parts.engine.isRepaired;
+    let repaired =
+      this.state.starshipState.parts.engine.isRepaired &&
+      this.state.starshipState.parts.cockpit.isRepaired &&
+      this.state.starshipState.parts.fin.isRepaired &&
+      this.state.starshipState.parts.wing.isRepaired &&
+      this.state.starshipState.parts.door.isRepaired;
     return repaired;
   };
 
@@ -168,7 +171,12 @@ class RepairSpaceshipGame extends Component {
         },
       },
       () => {
-        console.log(this.state);
+        if (this.isShipRepaired()) {
+          Vibration.vibrate(500);
+          Vibration.vibrate(500);
+          Vibration.vibrate(500);
+          this.props.endGame(true);
+        }
       },
     );
   };
