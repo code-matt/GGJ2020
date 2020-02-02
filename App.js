@@ -243,8 +243,14 @@ class App extends Component {
         case 'engine':
         case 'cockpit':
         case 'nosecone':
-          this.game.pickupSpaceshipPart(id, true);
-          Vibration.vibrate(500);
+          let pickedUp = this.game.isPartPickedUp(id);
+          if (pickedUp) {
+            this.game.pickupSpaceshipPart(id, false, pickedUp.position);
+            Vibration.vibrate(500);
+          } else {
+            this.game.pickupSpaceshipPart(id, true);
+            Vibration.vibrate(500);
+          }
           break;
         case 'ship':
           Vibration.vibrate(500);

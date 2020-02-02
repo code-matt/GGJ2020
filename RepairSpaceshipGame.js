@@ -8,34 +8,47 @@ import ShipNeedsRepair from './ShipNeedsRepair';
 import Ship from './Ship';
 
 class RepairSpaceshipGame extends Component {
-  state = {
-    starshipState: {
-      isRepaired: false,
-      shipPosition: {x: -1, y: -0.3, z: 0.5},
-      parts: {
-        engine: {
-          isRepaired: false,
-          isPickedUp: false,
-          position: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
-          // ship in order to repair it.
-        },
-        cockpit: {
-          isRepaired: false,
-          isPickedUp: false,
-          position: {x: 0.7, y: 0, z: 1},
-        },
-        nosecone: {
-          isRepaired: false,
-          isPickedUp: false,
-          position: {x: -0.5, y: 0.02, z: 0.5},
-        },
-        ship: {
-          isRepaired: false,
-          isPickedUp: false,
-          position: {x: -1.01, y: -0.4, z: 0.5},
+  constructor (props) {
+    super(props)
+    this.partRefs = {};
+    this.state = {
+      starshipState: {
+        isRepaired: false,
+        shipPosition: {x: -1, y: -0.3, z: 0.5},
+        parts: {
+          engine: {
+            isRepaired: false,
+            isPickedUp: false,
+            position: {x: 0, y: 0, z: 0}, // this is the starting world position of the engine that needs to get to the
+            // ship in order to repair it.
+          },
+          cockpit: {
+            isRepaired: false,
+            isPickedUp: false,
+            position: {x: 0.7, y: 0, z: 1},
+          },
+          nosecone: {
+            isRepaired: false,
+            isPickedUp: false,
+            position: {x: -0.5, y: 0.02, z: 0.5},
+          },
+          ship: {
+            isRepaired: false,
+            isPickedUp: false,
+            position: {x: -1.01, y: -0.4, z: 0.5},
+          },
         },
       },
-    },
+    };
+  }
+
+  isPartPickedUp = part => {
+    if (!this.state.starshipState.parts[part].isPickedUp) {
+      return false;
+    }
+    return {
+      position: this.state.starshipState.parts[part].position,
+    };
   };
 
   isShipRepaired = () => {
@@ -105,7 +118,7 @@ class RepairSpaceshipGame extends Component {
     );
   };
 
-  pickupSpaceshipPart = (part, pickedUp) => {
+  pickupSpaceshipPart = (part, pickedUp, position) => {
     this.setState(
       {
         starshipState: {
@@ -115,6 +128,9 @@ class RepairSpaceshipGame extends Component {
             [part]: {
               ...this.state.starshipState.parts[part],
               isPickedUp: pickedUp,
+              position: !pickedUp
+                ? this.partRefs[part].state.frontOfCameraPosition
+                : this.state.starshipState.parts[part].position,
             },
           },
         },
@@ -161,6 +177,7 @@ class RepairSpaceshipGame extends Component {
       <>
         <Ship position={shipPosition} isShipRepaired={isShipRepaired} />
         <Engine
+          ref={node => this.partRefs.engine = node}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={enginePosition}
           isRepaired={engineIsRepaired}
@@ -168,6 +185,7 @@ class RepairSpaceshipGame extends Component {
           shipPosition={shipPosition}
         />
         <Nosecone
+          ref={node => this.partRefs.nosecone = node}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={noseconePosition}
           isRepaired={noseconeIsRepaired}
@@ -175,6 +193,7 @@ class RepairSpaceshipGame extends Component {
           shipPosition={shipPosition}
         />
         <Cockpit
+          ref={node => this.partRefs.cockpit = node}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={cockpitPosition}
           isRepaired={cockpitIsRepaired}
