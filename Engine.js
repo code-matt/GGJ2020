@@ -10,7 +10,7 @@ function distanceVector(v1, v2) {
 }
 class Engine extends Component {
   state = {
-    frontOfCameraPosition: {x: 0, y: 0, z: 0},
+    frontOfCameraPosition: {x: 0, y: 0, z: 1},
   };
   componentDidUpdate(prevProps, prevState) {
     if (this.props.isPickedUp !== prevProps.isPickedUp) {
@@ -65,17 +65,21 @@ class Engine extends Component {
 
   render() {
     return (
-      <ARKit.Text
+      <ARKit.Model
+        scale={0.15}
+        model={{
+          file: 'spaceship2.scnassets/shipCockpit.scn',
+        }}
         transition={{duration: 0.3}}
-        text="I am a broken engine"
+        // text="I am a broken engine"
         position={
           this.props.isPickedUp
             ? this.state.frontOfCameraPosition
             : this.props.position
         }
-        font={{size: 0.04, depth: 0.03}}
+        // font={{size: 0.04, depth: 0.03}}
         id={'engine'}
-        material={{color: this.props.isRepaired ? 'green' : 'red'}}
+        // material={{color: this.props.isRepaired ? 'green' : 'red'}}
         key={`engine-${this.props.isRepaired ? '-repaired' : '-notrepaired'}`}
       />
     );

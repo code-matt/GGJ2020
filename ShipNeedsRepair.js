@@ -65,8 +65,8 @@ class ShipNeedsRepair extends Component {
   render() {
     return (
       <ARKit.Model
-        position={{x: -1.01, y: -0.01, z: 0}}
-        scale={0.01}
+        position={{x: -2.01, y: -0.1, z: 0}}
+        scale={0.15}
         model={{
           file: 'spaceship2.scnassets/shipNeedsRepair.scn',
         }}

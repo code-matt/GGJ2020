@@ -175,14 +175,14 @@ class RepairSpaceshipGame extends Component {
           isPickedUp={noseConePickedUp}
           shipPosition={shipPosition}
         />
-        <Cockpit
+        {/* <Cockpit
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={cockpitPosition}
           isRepaired={cockpitIsRepaired}
           isPickedUp={cockpitPickedUp}
           shipPosition={shipPosition}
-        />
-        <RepairedShip />
+        /> */}
+        {/* <RepairedShip /> */}
         <ShipNeedsRepair
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={brokenShipPosition}
