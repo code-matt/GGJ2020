@@ -14,6 +14,7 @@
 		5230D08223E6371C009FD9E8 /* PocketSVG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; };
 		5230D08323E6371C009FD9E8 /* PocketSVG.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5230D07E23E63549009FD9E8 /* PocketSVG.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65A691D419195C8B841E0E86 /* libPods-ARMultiplayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */; };
+		A4BFBE6423E651ED00F31F03 /* spaceship2.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A4BFBE6323E651ED00F31F03 /* spaceship2.scnassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		270E8C5A7DFBB293611F1714 /* libPods-ARMultiplayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ARMultiplayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5230D07823E63549009FD9E8 /* PocketSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PocketSVG.xcodeproj; path = "../node_modules/react-native-arkit/ios/PocketSVG/PocketSVG.xcodeproj"; sourceTree = "<group>"; };
 		A42C92FE23E5D8A900847044 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNSVG.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4BFBE6323E651ED00F31F03 /* spaceship2.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = spaceship2.scnassets; sourceTree = "<group>"; };
 		E1908E3981DB370883F8844B /* Pods-ARMultiplayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARMultiplayer.release.xcconfig"; path = "Target Support Files/Pods-ARMultiplayer/Pods-ARMultiplayer.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -107,6 +109,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				A4BFBE6323E651ED00F31F03 /* spaceship2.scnassets */,
 			);
 			name = ARMultiplayer;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				A4BFBE6423E651ED00F31F03 /* spaceship2.scnassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
