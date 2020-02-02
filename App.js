@@ -313,9 +313,26 @@ class App extends Component {
             lightEstimationEnabled
             onARKitError={console.log} // if arkit could not be initialized (e.g. missing permissions), you will get notified here
             onMultipeerJsonDataReceived={event => {
-              Vibration.vibrate(300);
               let {data} = event.nativeEvent;
               console.log(data);
+              if (data.type === 'userEvent') {
+                switch (data.payload.eventName) {
+                  case 'part_move':
+                    this.game.moveSpaceshipPart(
+                      data.payload.partName,
+                      data.payload.position,
+                    );
+                    break;
+                  case 'part_placed':
+                    this.game.placeSpaceshipObject(
+                      data.payload.partName,
+                      data.payload.position,
+                    );
+                    break;
+                  default:
+                    break;
+                }
+              }
             }}
             onPeerConnected={event => {
               Vibration.vibrate(1000);
