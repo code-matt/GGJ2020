@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import {Vibration} from 'react-native';
 import Cockpit from './Cockpit';
 import Engine from './Engine';
 import Nosecone from './NoseCone';
@@ -7,9 +7,18 @@ import RepairedShip from './RepairedShip';
 import ShipNeedsRepair from './ShipNeedsRepair';
 import Ship from './Ship';
 
+import assembledShipData from './assmbledShipData';
+
+function distanceVector(v1, v2) {
+  var dx = v1.x - v2.x;
+  var dy = v1.y - v2.y;
+  var dz = v1.z - v2.z;
+
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
 class RepairSpaceshipGame extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.partRefs = {};
     this.state = {
       starshipState: {
@@ -40,6 +49,27 @@ class RepairSpaceshipGame extends Component {
         },
       },
     };
+  }
+
+  componentDidMount() {
+    this.checkCompletionInterval = setInterval(() => {
+      assembledShipData.forEach(part => {
+        console.log('checking...');
+        const offsetVector = {
+          x: this.state.starshipState.shipPosition.x + part.validOffset.x,
+          y: this.state.starshipState.shipPosition.y + part.validOffset.y,
+          z: this.state.starshipState.shipPosition.z + part.validOffset.z,
+        };
+        if (
+          distanceVector(
+            offsetVector,
+            this.state.starshipState.parts[part.name].position,
+          ) < 1
+        ) {
+          Vibration.vibrate(400);
+        }
+      });
+    }, 500);
   }
 
   isPartPickedUp = part => {
@@ -177,7 +207,7 @@ class RepairSpaceshipGame extends Component {
       <>
         <Ship position={shipPosition} isShipRepaired={isShipRepaired} />
         <Engine
-          ref={node => this.partRefs.engine = node}
+          ref={node => (this.partRefs.engine = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={enginePosition}
           isRepaired={engineIsRepaired}
@@ -185,7 +215,7 @@ class RepairSpaceshipGame extends Component {
           shipPosition={shipPosition}
         />
         <Nosecone
-          ref={node => this.partRefs.nosecone = node}
+          ref={node => (this.partRefs.nosecone = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={noseconePosition}
           isRepaired={noseconeIsRepaired}
@@ -193,7 +223,7 @@ class RepairSpaceshipGame extends Component {
           shipPosition={shipPosition}
         />
         <Cockpit
-          ref={node => this.partRefs.cockpit = node}
+          ref={node => (this.partRefs.cockpit = node)}
           placeSpaceshipObject={this.placeSpaceshipObject}
           position={cockpitPosition}
           isRepaired={cockpitIsRepaired}

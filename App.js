@@ -502,7 +502,10 @@ class App extends Component {
             }}>
             {/* {this.state.objectPosition && this.renderObject()} */}
             {this.state.gameStarted && (
-              <RepairSpaceshipGame ref={node => (this.game = node)} />
+              <RepairSpaceshipGame
+                gameStarted={this.state.gameStarted}
+                ref={node => (this.game = node)}
+              />
             )}
           </ARKit>
         </View>
