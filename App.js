@@ -21,6 +21,8 @@ import RepairSpaceshipGame from './RepairSpaceshipGame';
 
 import {ARKit} from 'react-native-arkit';
 
+import SplashScreen from 'react-native-splash-screen';
+
 import Dialog from 'react-native-dialog';
 import CountDown from 'react-native-countdown-component';
 var Sound = require('react-native-sound');
@@ -54,6 +56,10 @@ class App extends Component {
       engineLocation: {x: 0, y: 0, z: 0},
       placementCursorPosition: {x: 0, y: 0, z: 0},
     };
+  }
+
+  componentDidMount() {
+    SplashScreen.hide();
   }
 
   componentDidUpdate(prevProps, prevState) {
